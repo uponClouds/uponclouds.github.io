@@ -1,8 +1,6 @@
 ---
 layout: post
 title: Mermaid example
-categories: example
-tags: [mermaid]
 ---
 
 ### 1. Pie chart

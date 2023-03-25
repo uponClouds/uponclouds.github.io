@@ -1,0 +1,1456 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="/jekyll-theme-yat/feed.xml" rel="self" type="application/atom+xml" /><link href="/jekyll-theme-yat/" rel="alternate" type="text/html" /><updated>2023-03-25T09:37:53+00:00</updated><id>/jekyll-theme-yat/feed.xml</id><title type="html">Gentle He’s Blogs</title><subtitle>Write an awesome description for your new site here. You can edit this line in _config.yml. It will appear in your document head meta (for Google search results) and in your feed.xml site description.</subtitle><author><name>uponclouds</name></author><entry><title type="html">Linux常用指令</title><link href="/jekyll-theme-yat/linux/2022/11/05/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4.html" rel="alternate" type="text/html" title="Linux常用指令" /><published>2022-11-05T00:00:00+00:00</published><updated>2022-11-05T00:00:00+00:00</updated><id>/jekyll-theme-yat/linux/2022/11/05/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4</id><content type="html" xml:base="/jekyll-theme-yat/linux/2022/11/05/Linux%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4.html"><![CDATA[<h2 id="netstat-显示网络状态">netstat: 显示网络状态</h2>
+
+<p><strong>netstat</strong> 命令可用于确定网络上的流量，以确定性能问题是否是由于网络拥塞引起的。</p>
+
+<p>在 <strong>netstat</strong> 的关于所配置的网络接口，诸如以下的流量命令显示信息：</p>
+
+<ul>
+  <li>与所有sockets关联的任何协议控制块的地址以及所有sockets的状态</li>
+  <li>通信子系统中接收，传输和丢弃的数据包数</li>
+  <li>每个接口的累积统计信息</li>
+  <li>路线及其状态</li>
+</ul>
+
+<p><strong>参数说明</strong>：</p>
+
+<blockquote>
+  <ul>
+    <li><strong>-r</strong>：–route，显示路由表信息。</li>
+    <li><strong>-g</strong>：–groups，显示多重广播功能群组组员名单。</li>
+    <li><strong>-s</strong>：–statistics，按照每个协议来分类进行统计。默认的显示IP、IPv6、ICMP、ICMPv6、TCP、TCPv6、UDP和UDPv6 的统计信息。</li>
+    <li><strong>-M</strong>：–masquerade，显示网络内存的集群池统计信息。</li>
+    <li><strong>-v</strong>：–verbose，命令显示每个运行中的基于公共数据链路接口的设备驱动程序的统计信息。</li>
+    <li><strong>-W</strong>：–wide，不截断IP地址。</li>
+    <li><strong>-n</strong>：进制使用域名解析功能。链接以数字形式展示(IP地址)，而不是通过主机名或域名形式展示。</li>
+    <li><strong>-N</strong>：–symbolic，解析硬件名称。</li>
+    <li><strong>-e</strong>：–extend，显示额外信息。</li>
+    <li><strong>-p</strong>：–programs，与链接相关程序名和进程的PID。</li>
+    <li><strong>-t</strong>：所有的 tcp 协议的端口。</li>
+    <li><strong>-x</strong>：所有的 unix 协议的端口。</li>
+    <li><strong>-u</strong>：所有的 udp 协议的端口。</li>
+    <li><strong>-o</strong>：–timers，显示计时器。</li>
+    <li><strong>-c</strong>：–continuous，每隔一个固定时间，执行netstat命令。</li>
+    <li><strong>-l</strong>：–listening，显示所有监听的端口。</li>
+    <li><strong>-a</strong>：–all，显示所有链接和监听端口。</li>
+    <li><strong>-F</strong>：–fib，显示转发信息库(默认)。</li>
+    <li><strong>-C</strong>：–cache，显示路由缓存而不是FIB。</li>
+    <li><strong>-Z</strong>：–context，显示套接字的SELinux安全上下文。</li>
+  </ul>
+</blockquote>
+
+<h2 id="scp-远程复制">scp: 远程复制</h2>
+
+<p>Linux scp 命令用于 Linux 之间复制文件和目录。scp 是 secure copy 的缩写, scp 是 linux 系统下基于 ssh 登陆进行安全的远程文件拷贝命令。scp 是加密的，rcp 是不加密的，scp 是 rcp 的加强版。</p>
+
+<p><strong>参数说明</strong>：</p>
+
+<blockquote>
+  <ul>
+    <li><strong>-p</strong>：保留原文件的修改时间，访问时间和访问权限。</li>
+    <li><strong>-q</strong>： 不显示传输进度条。</li>
+    <li><strong>-r</strong>： 递归复制整个目录。</li>
+    <li><strong>-i identity_file</strong>： 从指定文件中读取传输时使用的密钥文件，此参数直接传递给ssh。</li>
+    <li><strong>-P port</strong>：注意是大写的P, port是指定数据传输用到的端口号。</li>
+  </ul>
+</blockquote>
+
+<p><strong>用法示例</strong>：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 把192.168.0.11机器上的 source.txt 文件拷贝到本地</span>
+scp work@192.168.0.11:/home/work/source.txt /home/myself/   
+
+<span class="c"># 使用密钥传输，将本地的 sourcedir 文件夹内的所有文件传输给 work</span>
+scp <span class="nt">-i</span> ~/.ssh/your_private_key <span class="nt">-r</span> /home/myself/sourcedir/ work@192.168.0.10:/home/work/
+</code></pre></div></div>
+
+<h2 id="lsof-查看端口占用">lsof: 查看端口占用</h2>
+
+<p>lsof（list open files）是一个列出当前系统打开文件的工具。</p>
+
+<p>最常用的是<code class="language-plaintext highlighter-rouge">lsof -i:端口号</code>，如使用<code class="language-plaintext highlighter-rouge">lsof -i:22</code>后：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221029115704.png" alt="" /></p>
+
+<blockquote>
+  <ul>
+    <li>COMMAND: 进程的名称</li>
+    <li>PID: 进程标识符</li>
+    <li>USER: 进程所有者</li>
+    <li>FD: 文件描述符，应用程序通过文件描述符识别文件</li>
+    <li>TYPE: 文件类型</li>
+    <li>DEVICE: 指定磁盘的名称</li>
+    <li>SIZE: 文件的大小</li>
+    <li>NODE: 索引节点（文件在磁盘上的标识）</li>
+    <li>NAME: 打开文件的确切名称</li>
+  </ul>
+</blockquote>
+
+<p>其他用法：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lsof abc.txt  <span class="c"># 显示开启文件abc.txt的进程</span>
+lsof <span class="nt">-c</span> abc  <span class="c"># 显示abc进程现在打开的文件</span>
+lsof <span class="nt">-c</span> <span class="nt">-p</span> 1234  <span class="c"># 列出进程号为1234的进程现在打开的文件</span>
+lsof <span class="nt">-g</span> gid  <span class="c"># 显示归属gid的进程情况</span>
+lsof +d /usr/local  <span class="c"># 显示目录下呗进程开启的文件</span>
+lsof <span class="nt">-d</span> 4  <span class="c"># 显示使用fd为4的进程</span>
+lsof <span class="nt">-i</span> <span class="nt">-u</span>  <span class="c"># 显示所有打开的端口和UNIX domain文件</span>
+</code></pre></div></div>
+
+<h2 id="数据流重定向">数据流重定向</h2>
+
+<p><strong>标准输入</strong>：代码为0，使用 <code class="language-plaintext highlighter-rouge">&lt;</code> 或 <code class="language-plaintext highlighter-rouge">&lt;&lt;</code></p>
+
+<p><strong>标准输出</strong>：代码为1，使用 <code class="language-plaintext highlighter-rouge">&gt;</code> 或 <code class="language-plaintext highlighter-rouge">&gt;&gt;</code></p>
+
+<p><strong>标准错误输出</strong>：代码为2，使用 <code class="language-plaintext highlighter-rouge">2&gt;</code> 或 <code class="language-plaintext highlighter-rouge">2&gt;&gt;</code></p>
+
+<p>当仅存在 <code class="language-plaintext highlighter-rouge">&gt;</code> 符号时，等价于 <code class="language-plaintext highlighter-rouge">1&gt;</code> ，其他符号同理。</p>
+
+<p><strong>输出重定向示例</strong>：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 将home文件下各目录的文件名、属性等以覆盖的方法输入到 filename 文件，若没有则自动创建该文件</span>
+ll /home 1&gt; ~/filename
+
+<span class="c"># 以累加的方法将数据输出到文件上</span>
+ll /home 1&gt;&gt; ~/filename
+
+<span class="c"># 将正确与错误的数据写入到同一个文件list中去</span>
+find /home <span class="nt">-name</span> .bashrc <span class="o">&gt;</span> list 2&gt;&amp;1
+
+<span class="c"># 将错误的数据丢弃，屏幕上显示正确的数据</span>
+find /home <span class="nt">-name</span> .bashrc 2&gt; /dev/null
+</code></pre></div></div>
+
+<p><strong>输入重定向示例</strong>：</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 将bashrc的数据输入到 catfile 中</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> catfile &lt; ~/.bashrc
+
+<span class="c"># &lt;&lt; 表示结束输入的意思，当我们输入了 eof，就会立刻结束输入</span>
+<span class="nb">cat</span> <span class="o">&gt;</span> catfile <span class="o">&lt;&lt;</span> <span class="sh">"</span><span class="no">eof</span><span class="sh">"
+</span></code></pre></div></div>]]></content><author><name>uponclouds</name></author><category term="Linux" /><summary type="html"><![CDATA[netstat: 显示网络状态]]></summary></entry><entry><title type="html">Docker命令大全</title><link href="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html" rel="alternate" type="text/html" title="Docker命令大全" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8</id><content type="html" xml:base="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html"><![CDATA[<h2 id="基础命令">基础命令</h2>
+
+<h3 id="帮助命令">帮助命令</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nt">--version</span>  <span class="c"># 显示docker的版本信息</span>
+docker info    <span class="c"># 显示docker的系统信息</span>
+docker 命令 <span class="nt">--help</span>    <span class="c"># 显示帮助命令</span>
+</code></pre></div></div>
+
+<h3 id="镜像命令">镜像命令</h3>
+
+<h4 id="搜索镜像">搜索镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 搜索镜像</span>
+docker search mysql
+<span class="c"># 条件过滤搜索结果</span>
+docker search <span class="nt">--filter</span><span class="o">=</span><span class="nv">STARS</span><span class="o">=</span>5000
+</code></pre></div></div>
+
+<h4 id="拉取镜像">拉取镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 默认拉取最新的镜像</span>
+docker pull mysql
+<span class="c"># 指定版本下载</span>
+docker pull mysql:5.7
+</code></pre></div></div>
+
+<h4 id="查看所有镜像">查看所有镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看所有镜像信息</span>
+docker images <span class="nt">-a</span>
+<span class="c"># 查看所有的镜像id</span>
+docker images <span class="nt">-aq</span>
+</code></pre></div></div>
+
+<h4 id="删除镜像">删除镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#删除指定id的镜像</span>
+docker rmi 镜像id
+docker rmi 镜像id 镜像id 镜像id 镜像id
+<span class="c">#删除指定名称的镜像</span>
+docker rmi mysql:5.7
+<span class="c">#迭代删除所有的镜像</span>
+docker rmi <span class="nt">-f</span> <span class="si">$(</span>docker images  <span class="nt">-aq</span><span class="si">)</span>
+</code></pre></div></div>
+
+<h3 id="容器命令">容器命令</h3>
+
+<h4 id="运行镜像">运行镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="o">[</span>可选参数] image
+<span class="c"># 运行实例</span>
+docker run <span class="nt">--name</span><span class="o">=</span>mycat <span class="nt">-d</span> <span class="nt">-p</span> 8080:8080 tomcat
+<span class="c"># 用完即删</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> tomcat
+<span class="c"># 指定环境变量（实例）</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> elasticsearch <span class="nt">-p</span> 9200:9200 <span class="nt">-p</span> 9300:9300 <span class="nt">-e</span> <span class="s2">"discovery.type=single-node"</span> <span class="nt">-e</span> <span class="nv">ES_JAVA_OPTS</span><span class="o">=</span><span class="s2">"-Xms64m -Xmx512m"</span>  elasticsearch:7.6.2
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li>
+      <p><strong>–name=”Name”：</strong>容器名字 tomacat01、tomacat02，用于区分容器</p>
+    </li>
+    <li><strong>-e：</strong>指定环境变量</li>
+    <li><strong>-d：</strong>后台守护进程运行</li>
+    <li><strong>-p：</strong>指定容器的端口，如  -p 8080:8080
+      <ul>
+        <li>-p ：主机端口：容器端口</li>
+        <li>-p ：容器端口</li>
+      </ul>
+    </li>
+    <li><strong>-P：</strong>随机指定端口</li>
+    <li><strong>-v:</strong>  指定数据卷
+      <ul>
+        <li>-v   容器文件位置:宿主机文件位置</li>
+      </ul>
+    </li>
+    <li><strong>–volumes-from:</strong> 指定容器的数据卷共享（指定谁，就同步谁的数据！继承！）
+      <ul>
+        <li>–volumes-from:继承自那个容器（父容器删除不影响已存在数据）</li>
+      </ul>
+    </li>
+    <li><strong>–net:</strong> 缺省 bridge</li>
+  </ul>
+</blockquote>
+
+<h4 id="进入容器">进入容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 运行一个centos并进入到容器里面</span>
+docker run <span class="nt">-it</span> centos /bin/bash
+<span class="c"># 退出容器</span>
+<span class="nb">exit</span>
+</code></pre></div></div>
+
+<h4 id="查看容器">查看容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看正在运行中的容器</span>
+docker ps
+<span class="c"># 查看所有容器</span>
+docker ps <span class="nt">-a</span>
+</code></pre></div></div>
+
+<h4 id="退出容器">退出容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>   <span class="c"># 直接容器停止并退出</span>
+Ctrl + P + Q  <span class="c"># 容器退出不停止</span>
+</code></pre></div></div>
+
+<h4 id="删除容器">删除容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 删除指定容器</span>
+docker <span class="nb">rm </span>bde00bc086cf
+<span class="c"># 强制删除运行中的容器</span>
+docker <span class="nb">rm</span> <span class="nt">-f</span> bde00bc086cf
+<span class="c"># 迭代删除全部的容器</span>
+docker <span class="nb">rm</span> <span class="nt">-f</span> <span class="si">$(</span>docker ps <span class="nt">-aq</span><span class="si">)</span>
+</code></pre></div></div>
+
+<h4 id="容器的启动与停止">容器的启动与停止</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 启动容器</span>
+docker start 容器id
+<span class="c"># 重启容器</span>
+docker restart 容器id
+<span class="c"># 停止容器</span>
+docker stop 容器id
+<span class="c"># 强制杀死容器</span>
+docker <span class="nb">kill </span>容器id
+</code></pre></div></div>
+
+<h4 id="进入运行中容器">进入运行中容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 进入到指定容器内部进行修改  开启一个新的终端</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> 0cd4d9d94de2 /bin/bash
+<span class="c"># 进入到正在执行中的终端</span>
+docker attach 容器id
+</code></pre></div></div>
+
+<h4 id="从容器拷贝文件到宿主机">从容器拷贝文件到宿主机</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">cp </span>容器id:容器内文件的路径 宿主机路径
+<span class="c">#实例</span>
+docker <span class="nb">cp </span>0cd4d9d94de2:/Test.java /Test.java
+</code></pre></div></div>
+
+<h4 id="其他命令">其他命令</h4>
+
+<p><strong>查看日志</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看容器运行产生的日志</span>
+docker logs <span class="nt">-ft</span> <span class="nt">--tail</span> 10 容器id
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li><strong>f:</strong>  格式化日志</li>
+    <li><strong>t:</strong>  携带日志时间戳</li>
+  </ul>
+</blockquote>
+
+<p><strong>查看进程</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看cpu等信息</span>
+docker top 0cd4d9d94de2
+<span class="c"># 查看容器元信息</span>
+docker inspect 容器id
+</code></pre></div></div>
+
+<h2 id="进阶命令">进阶命令</h2>
+
+<h3 id="提交容器">提交容器</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 提交一个容器为一个镜像（将容器打包）</span>
+docker commit <span class="o">[</span>可选参数] 服务id 自定义镜像名称[:版本标签]
+<span class="c"># 示例代码提交</span>
+docker commit  <span class="nt">-a</span><span class="o">=</span><span class="s2">"admin"</span> <span class="nt">-m</span><span class="o">=</span><span class="s2">"comment"</span> 19329ae6df90  diytomcat:1.0
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li><strong>-a:</strong> 作者</li>
+    <li>**-m: **备注</li>
+    <li><strong>-c:</strong> 将Dockerfile指令应用于创建的映像</li>
+    <li><strong>-p:</strong> 提交期间暂停容器（默认为true）</li>
+  </ul>
+</blockquote>
+
+<h3 id="数据卷使用">数据卷使用</h3>
+
+<p><strong>基本使用</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 关联数据卷</span>
+docker run <span class="o">[</span>可选参数] <span class="nt">-v</span> /主机路径/:/容器路径/ 镜像名称
+<span class="c"># 关联数据卷的实例命令</span>
+docker run <span class="nt">-d</span> <span class="nt">-p</span> 8080:8080 <span class="nt">--name</span> mytomcat <span class="nt">-v</span> /home/tomcat/webapps/:/usr/local/tomcat/webapps tomcat
+</code></pre></div></div>
+
+<p><strong>MySQL安装实战</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">-p</span> 3366:3306 <span class="nt">-v</span> /home/mysql/conf:/etc/mysql/conf.d <span class="nt">-v</span> /home/mysql/data:/var/lib/mysql <span class="nt">-e</span> <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>123456 <span class="nt">--name</span> mysql01 mysql:5.7
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li><strong>-d:</strong> 守护进程运行</li>
+    <li><strong>-v:</strong> 添加数据卷（宿主机位置和容器位置映射）</li>
+    <li><strong>-p:</strong> 堆对外映射端口</li>
+    <li><strong>-e:</strong> 指定环境变量</li>
+    <li><strong>–name:</strong> 容器名称</li>
+  </ul>
+</blockquote>
+
+<h3 id="dockerfile">Dockerfile</h3>
+
+<p><strong>构建镜像文件</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建一个Dockerfile</span>
+vim Dockerfile
+
+FROM centos
+
+VOLUME <span class="o">[</span><span class="s2">"volume01"</span>,<span class="s2">"volume02"</span><span class="o">]</span>
+
+CMD <span class="nb">echo</span> <span class="s2">"-----end---"</span>
+CMD /bin/bash
+
+:x
+
+<span class="c"># 构建docker镜像</span>
+<span class="c"># -f dockerfile的路径   </span>
+<span class="c"># -t 生成的镜像名称</span>
+<span class="c"># . 以当前路径为上下文打包</span>
+docker build <span class="nt">-f</span> /home/docker-volom/Dockerfile <span class="nt">-t</span> huangfu/centos:1.0 <span class="nb">.</span>
+
+<span class="c"># 构建基本命令</span>
+docker build <span class="o">[</span>OPTIONS] PATH | URL | -
+</code></pre></div></div>
+
+<p><strong>Dockerfile概念</strong></p>
+
+<ol>
+  <li>每个保留关键字（指令）都必须是大写字母</li>
+  <li>执行顺序从上到下</li>
+  <li>每一个指令都会创建提交一个新的镜像层并提交</li>
+</ol>
+
+<blockquote>
+  <ul>
+    <li><strong>FROM:</strong> 基础镜像，一切都从这里开始构建</li>
+    <li><strong>MAINTAINER:</strong> 镜像是谁写的，姓名+邮箱</li>
+    <li><strong>RUN:</strong> 镜像构建需要运行的命令</li>
+    <li><strong>ADD:</strong> 添加一个内容，比如需要添加一个tomcat，则需要传递一个压缩包，便于在容器内构建！</li>
+    <li><strong>WORKDIR:</strong> 镜像的工作目录</li>
+    <li><strong>VOLUME:</strong> 挂在的目录</li>
+    <li><strong>EXPOSE:</strong> 暴露端口</li>
+    <li><strong>CMD:</strong> 一个指令，指定这个容器启动的时候要运行的命令</li>
+    <li><strong>ENTRYPOINT:</strong> 指定这个容器启动的时候要运行的命令！可以追加命令！</li>
+    <li><strong>ONBUILD:</strong> 当构建一个被继承的Dockerfile 这个时候就会运行指令，触发命令</li>
+    <li><strong>COPY:</strong> 类似与ADD，将文件拷贝到镜像中</li>
+    <li><strong>ENV：</strong>构建的时候设置环境变量</li>
+  </ul>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 构建一个具有复杂命令行的centos</span>
+vim Dockerfile
+
+<span class="c"># 镜像继承自centos</span>
+FROM centos
+<span class="c"># 作者信息</span>
+MAINTAINER huangfu&lt;huangfusuper@163.com&gt;
+<span class="c"># 设置环境变量</span>
+ENV MYPATH /usr/local
+<span class="c"># 设置工作目录</span>
+WORKDIR <span class="nv">$MYPATH</span>
+<span class="c"># 执行命令安装指令</span>
+RUN yum <span class="nt">-y</span> <span class="nb">install </span>vim
+RUN yum <span class="nt">-y</span> <span class="nb">install </span>net-tools
+<span class="c"># 暴露端口</span>
+EXPOSE 80
+<span class="c"># 执行一些指令</span>
+CMD <span class="nb">echo</span> <span class="s2">"-------end------"</span>
+CMD <span class="nb">echo</span> <span class="nv">$MYPATH</span>
+CMD /bin/bash
+
+:x
+
+<span class="c"># 构建镜像</span>
+docker build <span class="nt">-f</span> /home/docker-volom/Dockerfile <span class="nt">-t</span> huangfu/diycentos:1.0 <span class="nb">.</span>
+</code></pre></div></div>]]></content><author><name>uponclouds</name></author><category term="工具" /><summary type="html"><![CDATA[基础命令]]></summary></entry><entry><title type="html">IO多路复用</title><link href="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html" rel="alternate" type="text/html" title="IO多路复用" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8</id><content type="html" xml:base="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html"><![CDATA[<p>一般单次 I/O 请求会分为两个阶段，每个阶段对于 I/O 的处理方式是不同的。<strong>首先，I/O 会经历一个等待资源的阶段</strong>，比方说，等待网络传输数据可用，在这个过程中我们对 I/O 会有两种处理方式：</p>
+
+<ul>
+  <li>阻塞。指的是在数据不可用时，I/O 请求一直阻塞，直到数据返回；</li>
+  <li>非阻塞。指的是数据不可用时，I/O 请求立即返回，直到被通知资源可用为止。</li>
+</ul>
+
+<p><strong>然后是使用资源的阶段</strong>，比如说从网络上接收到数据，并且拷贝到应用程序的缓冲区里面。在这个阶段我们也会有两种处理方式：</p>
+
+<ul>
+  <li>同步处理。指的是 I/O 请求在读取或者写入数据时会阻塞，直到读取或者写入数据完成；</li>
+  <li>异步处理。指的是 I/O 请求在读取或者写入数据时立即返回，当操作系统处理完成 I/O 请求，并且将数据拷贝到用户提供的缓冲区后，再通知应用 I/O 请求执行完成。</li>
+</ul>
+
+<p>将这两个阶段的四种处理方式，做一些排列组合，再做一些补充，就得到了我们常见的五种 I/O 模型：</p>
+
+<ul>
+  <li>
+    <p><strong>同步阻塞IO</strong>：假设应用程序的进程发起<strong>IO调用</strong>，但是如果<strong>内核的数据还没准备好</strong>的话，那应用程序进程就一直在阻塞等待，一直等到内核数据准备好了，从内核拷贝到用户空间，才返回成功提示，此次IO操作，称之为<strong>阻塞IO</strong>。</p>
+  </li>
+  <li>
+    <p><strong>同步非阻塞IO</strong>：如果内核数据还没准备好，可以先返回错误信息给用户进程，让它不需要等待，而是通过轮询的方式再来请求。</p>
+  </li>
+  <li>
+    <p><strong>同步IO多路复用</strong>：本文接下来重点介绍的模型。</p>
+  </li>
+  <li>
+    <p><strong>信号驱动模型</strong>：信号驱动IO不再用主动询问的方式去确认数据是否就绪，而是向内核发送一个信号，然后应用用户进程可以去做别的事，不用阻塞。当内核数据准备好后，再通过信号通知应用进程，此时数据复制到用户空间的时候，应用进程还是阻塞的。</p>
+  </li>
+  <li>
+    <p><strong>异步IO(AIO)</strong>：以上四种IO模型在数据复制到用户缓存空间的时候，都是<strong>阻塞</strong>的。而<strong>AIO</strong>实现了全流程的非阻塞，当数据从内核复制到用户空间完成后，系统会发送型号给用户进行通知。</p>
+  </li>
+</ul>
+
+<h2 id="io多路复用">IO多路复用</h2>
+
+<p>⼀个进程虽然任⼀时刻只能处理⼀个请求，但是处理每个请求的事件时，耗时控制在 1 毫秒以内，这样 1 秒内就可以处理上千个请求，把时间拉⻓来看，多个请求复⽤了⼀个进程，这就是多路复⽤，这种思想很类似⼀个 <strong>CPU</strong> 并发多个进程，所以也叫做<strong>时分多路复⽤</strong>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">select</code>，<code class="language-plaintext highlighter-rouge">poll</code>，<code class="language-plaintext highlighter-rouge">epoll</code>是 Linux 内核提供给用户调用的三个多路复用接口，我们将重点介绍它们。</p>
+
+<h3 id="selectpoll">select/poll</h3>
+
+<p>应用进程通过调用 <code class="language-plaintext highlighter-rouge">select</code> 函数，可以同时监控多个<code class="language-plaintext highlighter-rouge">文件描述符</code>，在 <code class="language-plaintext highlighter-rouge">select</code> 函数监控的<code class="language-plaintext highlighter-rouge">文件描述符</code>中，只要有任何一个数据状态准备就绪了，<code class="language-plaintext highlighter-rouge">select</code> 函数就会返回可读状态，这时应用进程再发起 <code class="language-plaintext highlighter-rouge">recvfrom</code> 系统调用请求去读取数据。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220722214825.png" alt="" /></p>
+
+<div class="note yellow">select 使⽤固定⻓度的 BitsMap，表示⽂件描述符集合，⽽且所⽀持的⽂件描述符的个数是有限制的，在 Linux 系统中，由内核中的 FD_SETSIZE 限制， 默认最⼤值为 1024 ，只能监听 0~1023 的⽂件描述符。</div>
+
+<p><code class="language-plaintext highlighter-rouge">select</code> 函数返回后是通过遍历 <code class="language-plaintext highlighter-rouge">⽂件描述符</code>集合来找到就绪的描述符。（仅知道有I/O事件发生，却不知是哪几个流，所以遍历所有流）</p>
+
+<p>比如在 Socket 网络编程中，<code class="language-plaintext highlighter-rouge">select</code> 将已连接的 <code class="language-plaintext highlighter-rouge">Socket</code> 都放到⼀个<code class="language-plaintext highlighter-rouge">⽂件描述符</code>集合，然后调⽤ <code class="language-plaintext highlighter-rouge">select</code> 函数将⽂件描述符集合拷⻉到内核⾥，让内核来检查是否有⽹络事件产⽣，检查的⽅式很粗暴，就是通过遍历⽂件描述符集合的⽅式，当检查到有事件产⽣后，将此 <code class="language-plaintext highlighter-rouge">Socket</code> 标记为可读或可写，接着再把整个⽂件描述符集合拷⻉回⽤户态⾥，然后⽤户态还需要再通过遍历的⽅法找到可读或可写的 <code class="language-plaintext highlighter-rouge">Socket</code>，然后再对其处理。所以，对于 <code class="language-plaintext highlighter-rouge">select</code> 这种⽅式，需要进⾏ <strong>2</strong> 次「遍历」⽂件描述符集合，⼀次是在内核态⾥，⼀个次是在⽤户态⾥ ，⽽且还会发⽣ <strong>2</strong> 次「拷⻉」⽂件描述符集合，先从⽤户空间传⼊内核空间，由内核修改后，再传出到⽤户空间中。</p>
+
+<p><code class="language-plaintext highlighter-rouge">poll</code> 不再⽤ BitsMap 来存储所关注的<code class="language-plaintext highlighter-rouge">⽂件描述符</code>，取⽽代之⽤动态数组，以链表形式来组织，突破了 <code class="language-plaintext highlighter-rouge">select</code> 的⽂件描述符个数限制，当然还会受到系统⽂件描述符限制。</p>
+
+<p>但是 <code class="language-plaintext highlighter-rouge">poll</code> 和 <code class="language-plaintext highlighter-rouge">select</code> 并没有太⼤的本质区别，都是使⽤「线性结构」存储进程关注的 <code class="language-plaintext highlighter-rouge">⽂件描述符</code> 集合，因此都需要遍历⽂件描述符集合来找到可读或可写的 <code class="language-plaintext highlighter-rouge">⽂件描述符</code>，时间复杂度为 <strong>O(n)</strong>，⽽且也需要在⽤户态与内核态之间拷⻉⽂件描述符集合，这种⽅式随着并发数上来，性能的损耗会呈指数级增⻓。</p>
+
+<h3 id="epoll">epoll</h3>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code>使用事件驱动来实现，流程如下：</p>
+
+<p><img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220722215234.png" alt="" /></p>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code> 通过两个⽅⾯，很好解决了 <code class="language-plaintext highlighter-rouge">select/poll</code> 的问题：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">epoll</code> 在内核⾥使⽤红⿊树来跟踪进程所有待检测的⽂件描述符，把需要监控的 <code class="language-plaintext highlighter-rouge">socket</code> 通过 <code class="language-plaintext highlighter-rouge">epoll_ctl()</code> 函数加⼊内核中的红⿊树⾥，红⿊树是个⾼效的数据结构，增删查⼀般时间复杂度是 <strong>O(logn)</strong>，通过对这棵⿊红树进⾏操作，这样就不需要像 <code class="language-plaintext highlighter-rouge">select/poll</code> 每次操作时都传⼊整个 socket 集合，只需要传⼊⼀个待检测的 <code class="language-plaintext highlighter-rouge">socket</code>，减少了内核和⽤户空间⼤量的数据拷⻉和内存分配。</li>
+  <li><code class="language-plaintext highlighter-rouge">epoll</code> 使⽤事件驱动的机制，内核⾥维护了⼀个链表来记录就绪事件，当某个 <code class="language-plaintext highlighter-rouge">socket</code> 有事件发⽣时，通过回调函数内核会将其加⼊到这个就绪事件列表中，当⽤户调⽤ <code class="language-plaintext highlighter-rouge">epoll_wait()</code> 函数时，只会返回有事件发⽣的⽂件描述符的个数，不需要像 <code class="language-plaintext highlighter-rouge">select/poll</code> 那样轮询扫描整个 <code class="language-plaintext highlighter-rouge">socket</code> 集合，⼤⼤提⾼了检测的效率。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220722215630.png" alt="" /></li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code> 的⽅式即使监听的 <code class="language-plaintext highlighter-rouge">socket</code> 数量越多的时候，效率不会⼤幅度降低，能够同时监听的 <code class="language-plaintext highlighter-rouge">socket</code> 的数⽬也⾮常的多了，上限就为系统定义的进程打开的最⼤⽂件描述符个数。</p>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code> ⽀持两种事件触发模式，分别是<strong>边缘触发（edge-triggered，ET）</strong>和<strong>⽔平触发（level-triggered， LT）</strong>。</p>
+
+<ul>
+  <li><strong>边缘触发</strong>：当被监控的 <code class="language-plaintext highlighter-rouge">Socket</code> 描述符上有可读事件发⽣时，服务器端只会从 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 中苏醒⼀次，即使进程没有调⽤ <code class="language-plaintext highlighter-rouge">read</code> 函数从内核读取数据，也依然只苏醒⼀次，因此我们程序要保证⼀次性将内核缓冲区的数据读取完；</li>
+  <li><strong>水平触发</strong>：当被监控的 <code class="language-plaintext highlighter-rouge">Socket</code> 上有可读事件发⽣时，服务器端不断地从 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 中苏醒，直到内核缓冲区数据被 <code class="language-plaintext highlighter-rouge">read</code> 函数读完才结束，⽬的是告诉我们有数据需要读取；</li>
+</ul>
+
+<div class="note yellow">⽔平触发的意思是只要满⾜事件的条件，⽐如内核中有数据需要读，就⼀直不断地把这个事件传递给⽤户；⽽边缘触发的意思是只有第⼀次满⾜条件的时候才触发，之后就不会再传递同样的事件了。</div>
+
+<p>如果使⽤⽔平触发模式，当内核通知⽂件描述符可读写时，接下来还可以继续去检测它的状态，看它是否依然可读或可写。所以在收到通知后，没必要⼀次执⾏尽可能多的读写操作。</p>
+
+<p>如果使⽤边缘触发模式，I/O 事件发⽣时只会通知⼀次，⽽且我们不知道到底能读写多少数据，所以在收到通知后应尽可能地读写数据，以免错失读写的机会。因此，我们会循环从⽂件描述符读写数据，那么如果⽂件描述符是阻塞的，没有数据可读写时，进程会阻塞在读写函数那⾥，程序就没办法继续往下执⾏。所以，<strong>边缘触发模式⼀般和⾮阻塞 I/O 搭配使⽤</strong>，程序会⼀直执⾏ I/O 操作，直到系统调⽤（如 <code class="language-plaintext highlighter-rouge">read</code> 和 <code class="language-plaintext highlighter-rouge">write</code> ）返回错误，错误类型为 <code class="language-plaintext highlighter-rouge">EAGAIN</code> 或 <code class="language-plaintext highlighter-rouge">EWOULDBLOCK</code> 。</p>
+
+<p>⼀般来说，边缘触发的效率⽐⽔平触发的效率要⾼，因为边缘触发可以减少 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 的系统调⽤次数，系统调⽤也是有⼀定的开销的的，毕竟也存在上下⽂的切换。</p>
+
+<div class="note red sd-err"> select/poll 只有⽔平触发模式，epoll 默认的触发模式是⽔平触发，但是可以根据应⽤场景设置为边缘触发模式。Nginx 使用边缘触发，Redis 使用水平触发。</div>
+
+<h3 id="总结">总结</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>select</th>
+      <th>poll</th>
+      <th>epoll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>底层数据结构</td>
+      <td>数组</td>
+      <td>链表</td>
+      <td>红黑树和双链表</td>
+    </tr>
+    <tr>
+      <td>获取就绪的fd</td>
+      <td>遍历</td>
+      <td>遍历</td>
+      <td>事件回调</td>
+    </tr>
+    <tr>
+      <td>事件复杂度</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>O(logn)</td>
+    </tr>
+    <tr>
+      <td>最大连接数</td>
+      <td>1024</td>
+      <td>无限制</td>
+      <td>无限制</td>
+    </tr>
+    <tr>
+      <td>fd数据拷贝</td>
+      <td>每次调用select，需要将fd数据从用户空间拷贝到内核空间</td>
+      <td>每次调用poll，需要将fd数据从用户空间拷贝到内核空间</td>
+      <td>使用内存映射(mmap)，不需要从用户空间频繁拷贝fd数据到内核空间</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="参考">参考</h3>
+
+<p>[1] 看一遍就理解：IO模型详解 –&gt; <a href="https://juejin.cn/post/7036518015462015006#heading-7">https://juejin.cn/post/7036518015462015006#heading-7</a></p>
+
+<p>[2] 图解系统-小林 –&gt; <a href="https://xiaolincoding.com/os/8_network_system/selete_poll_epoll.html#_9-2-i-o-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8-select-poll-epoll">https://xiaolincoding.com/os/8_network_system/selete_poll_epoll.html#_9-2-i-o-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8-select-poll-epoll</a></p>]]></content><author><name>uponclouds</name></author><category term="操作系统" /><summary type="html"><![CDATA[一般单次 I/O 请求会分为两个阶段，每个阶段对于 I/O 的处理方式是不同的。首先，I/O 会经历一个等待资源的阶段，比方说，等待网络传输数据可用，在这个过程中我们对 I/O 会有两种处理方式：]]></summary></entry><entry><title type="html">Java 中的偏向锁和轻量级锁</title><link href="/jekyll-theme-yat/java/2022/08/18/Java-%E4%B8%AD%E7%9A%84%E5%81%8F%E5%90%91%E9%94%81%E5%92%8C%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81.html" rel="alternate" type="text/html" title="Java 中的偏向锁和轻量级锁" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/java/2022/08/18/Java%20%E4%B8%AD%E7%9A%84%E5%81%8F%E5%90%91%E9%94%81%E5%92%8C%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81</id><content type="html" xml:base="/jekyll-theme-yat/java/2022/08/18/Java-%E4%B8%AD%E7%9A%84%E5%81%8F%E5%90%91%E9%94%81%E5%92%8C%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81.html"><![CDATA[<p>在为了减少获得锁和释放锁带来的性能消耗，在 Java SE 1.6 中开始引入了 “偏向锁” 和 “轻量级锁” ，此时锁一共有四种状态，从低到高分别是：<strong>无锁状态、偏向锁状态、轻量级锁状态和重量级锁状态</strong>，这几个状态会随着竞争情况逐渐升级。锁可以升级但不能降级，意味着偏向锁升级成轻量级锁后不能降级成偏向锁。</p>
+
+<h2 id="锁状态">锁状态</h2>
+
+<p>当某个线程要访问某个对象时，是如何判断该对象是否有锁的呢？这就需要检查对象的对象头了。 HotSpot 虚拟机的对象头（Object Header）分为两部分，第一部分用于存储对象自身的运行时数据，如哈希码（HashCode）、GC分代年龄（Generational GC Age）等。这部分数据的长度在32位和64位的 Java 虚拟机中分别会占用32个或64个比特，官方称它为 <code class="language-plaintext highlighter-rouge">Mark Word</code>。这部分是实现轻量级锁和偏向锁的关键。另外一部分用于存储指向方法区对象类型数据的指针，如果是数组对象，还会有一个额外的部分用于存储数组长度。</p>
+
+<p>在无锁状态时，JVM(32位)的 <code class="language-plaintext highlighter-rouge">Mark Word</code> 默认储存结构如下图所示：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220815191128.png" alt="" /></p>
+
+<p>在运行期间，<code class="language-plaintext highlighter-rouge">Mark Word</code> 里的数据会随着锁标志位的变化而变化：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220815191327.png" alt="" /></p>
+
+<h2 id="偏向锁">偏向锁</h2>
+
+<p>引入偏向锁的目的是消除数据在无竞争情况下的同步原语，进一步提高程序的运行性能。因为在大多数情况下，锁不仅不存在多线程竞争，而且总是由同一线程多次获得。偏向锁中的“偏”，就是偏心的“偏”、偏袒的“偏”。它的意思是这个锁会偏向于第一个获得它的线程，如果在接下来的执行过程中，该锁一直没有被其他的线程获取，则持有偏向锁的线程将永远不需要再进行同步。</p>
+
+<h3 id="偏向锁的获得">偏向锁的获得</h3>
+
+<p>假设当前虚拟机启用了偏向锁（启用参数<code class="language-plaintext highlighter-rouge">-XX：+UseBiased Locking</code>，这是自JDK 6起HotSpot虚拟机的默认值），当一个线程访问同步块并获取锁时，会在对象头和栈帧中的锁记录里存储锁偏向的线程ID，以后该线程在进入和退出同步块时不需要进行<code class="language-plaintext highlighter-rouge">CAS</code>操作来加锁和解锁，只需简单地测试一下对象头的<code class="language-plaintext highlighter-rouge">Mark Word</code>里是否存储着指向当前线程的偏向锁。如果测试成功，表示线程已经获得了锁。如果测试失败，则需要再测试一下<code class="language-plaintext highlighter-rouge">Mark Word</code>中偏向锁的标识是否设置成1（表示当前是偏向锁）：如果没有设置，则使用<code class="language-plaintext highlighter-rouge">CAS</code>竞争锁；如果设置了，则尝试使用<code class="language-plaintext highlighter-rouge">CAS</code>将对象头的偏向锁指向当前线程。</p>
+
+<blockquote>
+  <p>当对象进入偏向状态的时候，Mark Word大部分的空间（23个比特）都用于存储持有锁的线程ID了，这部分空间占用了原有存储对象哈希码的位置，在Java语言里面一个对象如果计算过哈希码，就应该一直保持该值不变（对象通过Object::hashCode()方法，将计算结果保存在对象头中）。因此，当一个对象已经计算过一致性哈希码后，它就再也无法进入偏向锁状态了；而当一个对象当前正处于偏向锁状态，又收到需要计算其一致性哈希码请求 [1] 时，它的偏向状态会被立即撤销，并且锁会膨胀为重量级锁。在重量级锁的实现中，对象头指向了重量级锁的位置，代表重量级锁的ObjectMonitor类里有字段可以记录非加锁状态（标志位为“01”）下的Mark Word，其中自然可以存储原来的哈希码。</p>
+</blockquote>
+
+<h3 id="偏向锁的撤销">偏向锁的撤销</h3>
+
+<p>偏向锁使用了一种等到竞争出现才释放锁的机制，所以当其他线程尝试竞争偏向锁时，持有偏向锁的线程才会释放锁。偏向锁的撤销，需要等待全局安全点（在这个时间点上没有正在执行的字节码）。它会首先暂停拥有偏向锁的线程，然后检查持有偏向锁的线程是否活着，如果线程不处于活动状态，则将对象头设置成无锁状态；如果线程仍然活着，拥有偏向锁的栈会被执行，遍历偏向对象的锁记录，栈中的锁记录和对象头的<code class="language-plaintext highlighter-rouge">Mark Word</code>要么重新偏向于其他线程，要么恢复到无锁或者标记对象不适合作为偏向锁，最后唤醒暂停的线程。</p>
+
+<h2 id="轻量级锁">轻量级锁</h2>
+
+<p>轻量级锁是JDK 6时加入的新型锁机制，它名字中的“轻量级”是相对于使用操作系统互斥量来实现的传统锁而言的，因此传统的锁机制就被称为“重量级”锁。不过，需要强调一点，轻量级锁并不是用来代替重量级锁的，它设计的初衷是在没有多线程竞争的前提下，减少传统的重量级锁使用操作系统互斥量产生的性能消耗。</p>
+
+<h3 id="轻量级锁的加锁">轻量级锁的加锁</h3>
+
+<p>在代码即将进入同步块的时候，如果此同步对象没有被锁定（锁标志位为“01”状态），虚拟机首先将在当前线程的栈帧中建立一个名为锁记录（Lock Record）的空间，用于存储锁对象目前的Mark Word的拷贝（官方为这份拷贝加了一个Displaced前缀，即Displaced Mark Word），这时候线程堆栈与对象头的状态如图所示：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221007224727.png" alt="" /></p>
+
+<p>然后，虚拟机将使用<code class="language-plaintext highlighter-rouge">CAS</code>操作尝试把对象的<code class="language-plaintext highlighter-rouge">Mark Word</code>更新为指向<code class="language-plaintext highlighter-rouge">Lock Record</code>的指针。如果这个更新动作成功了，即代表该线程拥有了这个对象的锁，并且对象<code class="language-plaintext highlighter-rouge">Mark Word</code>的锁标志位（<code class="language-plaintext highlighter-rouge">Mark Word</code>的最后两个比特）将转变为“00”，表示此对象处于轻量级锁定状态。这时候线程堆栈与对象头的状态如图所示：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221007224820.png" alt="" /></p>
+
+<p>如果这个更新操作失败了，那就意味着至少存在一条线程与当前线程竞争获取该对象的锁。虚拟机首先会检查对象的<code class="language-plaintext highlighter-rouge">Mark Word</code>是否指向当前线程的栈帧，如果是，说明当前线程已经拥有了这个对象的锁，那直接进入同步块继续执行就可以了，否则就说明这个锁对象已经被其他线程抢占了。如果出现两条以上的线程争用同一个锁的情况，那轻量级锁就不再有效，必须要膨胀为重量级锁，锁标志的状态值变为“10”，此时<code class="language-plaintext highlighter-rouge">Mark Word</code>中存储的就是指向重量级锁（互斥量）的指针，后面等待锁的线程也必须进入阻塞状态。</p>
+
+<h3 id="轻量级锁的解锁">轻量级锁的解锁</h3>
+
+<p>它的解锁过程也同样是通过<code class="language-plaintext highlighter-rouge">CAS</code>操作来进行的，如果对象的<code class="language-plaintext highlighter-rouge">Mark Word</code>仍然指向线程的锁记录，那就用<code class="language-plaintext highlighter-rouge">CAS</code>操作把对象当前的<code class="language-plaintext highlighter-rouge">Mark Word</code>和线程中复制的<code class="language-plaintext highlighter-rouge">Displaced Mark Word</code>替换回来。假如能够成功替换，那整个同步过程就顺利完成了；如果替换失败，则说明有其他线程尝试过获取该锁，就要在释放锁的同时，唤醒被挂起的线程。</p>
+
+<blockquote>
+  <p>轻量级锁能提升程序同步性能的依据是“对于绝大部分的锁，在整个同步周期内都是不存在竞争的”这一经验法则。如果没有竞争，轻量级锁便通过CAS操作成功避免了使用互斥量的开销；但如果确实存在锁竞争，除了互斥量的本身开销外，还额外发生了CAS操作的开销。因此在有竞争的情况下，轻量级锁反而会比传统的重量级锁更慢。</p>
+</blockquote>
+
+<h2 id="总结">总结</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>锁</th>
+      <th>优点</th>
+      <th>缺点</th>
+      <th>适用场景</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>偏向锁</td>
+      <td>加锁和解锁不需要额外的消耗，和执行非同步方法相比仅存在纳秒级的差距</td>
+      <td>如果线程间存在锁竞争，会带来额外的锁撤销的消耗</td>
+      <td>适用于只有一个线程访问同步块场景</td>
+    </tr>
+    <tr>
+      <td>轻量级锁</td>
+      <td>竞争的线程不会阻塞，提高了程序的响应速度</td>
+      <td>如果始终得不到锁竞争的线程，使用自旋会消耗 CPU</td>
+      <td>追求响应时间，同步块执行速度非常快</td>
+    </tr>
+    <tr>
+      <td>重量级锁</td>
+      <td>线程竞争不适用自旋，不会消耗 CPU</td>
+      <td>线程阻塞，响应时间缓慢</td>
+      <td>追求吞吐量，同步块执行速度较长</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="参考">参考</h2>
+
+<p>[1] 方腾飞,魏鹏,程晓明. “Java并发编程的艺术 (Java核心技术系列)。” Apple Books.</p>
+
+<p>[2] 周志明. “深入理解Java虚拟机：JVM高级特性与最佳实践（第3版）。” Apple Books.</p>]]></content><author><name>uponclouds</name></author><category term="Java" /><summary type="html"><![CDATA[在为了减少获得锁和释放锁带来的性能消耗，在 Java SE 1.6 中开始引入了 “偏向锁” 和 “轻量级锁” ，此时锁一共有四种状态，从低到高分别是：无锁状态、偏向锁状态、轻量级锁状态和重量级锁状态，这几个状态会随着竞争情况逐渐升级。锁可以升级但不能降级，意味着偏向锁升级成轻量级锁后不能降级成偏向锁。]]></summary></entry><entry><title type="html">Java 多线程交替打印</title><link href="/jekyll-theme-yat/java/2022/08/18/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0.html" rel="alternate" type="text/html" title="Java 多线程交替打印" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/java/2022/08/18/Java%20%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0</id><content type="html" xml:base="/jekyll-theme-yat/java/2022/08/18/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0.html"><![CDATA[<p>学习多线程最好的方法就是敲代码了，可以通过练习几个简单的 Demo 来理解 Java 中的多线程之间的协同工作。</p>
+
+<h3 id="demo-1交替打印数值">Demo 1：交替打印数值</h3>
+
+<p>使用两个线程交替打印数值到 100，也就是说线程<em>A</em>打印<em>1</em>，然后线程<em>B</em>打印<em>2</em>，接着再线程<em>A</em>打印<em>3</em>，……，最后线程<em>B</em>打印<em>100</em>。</p>
+
+<p>首先实现一个 Runnable 类：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Print</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
+        
+    	<span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kd">synchronized</span> <span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">notify</span><span class="o">();</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="nc">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" print: "</span> <span class="o">+</span> <span class="n">i</span><span class="o">);</span>
+                        <span class="o">++</span><span class="n">i</span><span class="o">;</span>
+
+                        <span class="k">try</span> <span class="o">{</span>
+                            <span class="n">wait</span><span class="o">();</span>
+                        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                        <span class="k">break</span><span class="o">;</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>接着创建线程进行调用：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Print</span> <span class="n">print</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Print</span><span class="o">();</span>
+        <span class="nc">Thread</span> <span class="n">threadOne</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">print</span><span class="o">);</span>
+        <span class="n">threadOne</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"Thread 1"</span><span class="o">);</span>
+        <span class="nc">Thread</span> <span class="n">threadTwo</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Thread</span><span class="o">(</span><span class="n">print</span><span class="o">);</span>
+        <span class="n">threadTwo</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="s">"Thread 2"</span><span class="o">);</span>
+
+        <span class="n">threadOne</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+        <span class="n">threadTwo</span><span class="o">.</span><span class="na">start</span><span class="o">();</span>
+    <span class="o">}</span>
+
+<span class="c1">// 运行结果</span>
+<span class="c1">// Thread 1 print: 1</span>
+<span class="c1">// Thread 2 print: 2</span>
+<span class="c1">// Thread 1 print: 3</span>
+<span class="c1">// Thread 2 print: 4</span>
+<span class="c1">// Thread 1 print: 5</span>
+<span class="c1">// Thread 2 print: 6</span>
+<span class="c1">//      ···</span>
+<span class="c1">//      ···</span>
+</code></pre></div></div>
+
+<h3 id="demo-2交替打印abc">Demo 2：交替打印ABC</h3>
+
+<p>使用三个线程交替打印A、B、C，也就是说线程<em>1</em>打印<em>A</em>，然后线程<em>2</em>打印<em>B</em>，接着线程<em>3</em>打印<em>C</em>。和Demo 1 不同的是，现在需要 3 个线程进行协作，因此所需要的对象锁的数量也会增加。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Print</span> <span class="kd">implements</span> <span class="nc">Runnable</span> <span class="o">{</span>
+
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">prev</span><span class="o">;</span> <span class="c1">// 前一个对象，比如当打印B时就为A</span>
+        <span class="kd">private</span> <span class="kd">final</span> <span class="nc">Object</span> <span class="n">self</span><span class="o">;</span> <span class="c1">// 当前对象</span>
+
+        <span class="kd">public</span> <span class="nf">Print</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">prev</span><span class="o">,</span> <span class="nc">Object</span> <span class="n">self</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">prev</span> <span class="o">=</span> <span class="n">prev</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">self</span> <span class="o">=</span> <span class="n">self</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="nd">@Override</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">10</span><span class="o">;</span> <span class="c1">// 每个字母打印的次数</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="kd">synchronized</span> <span class="o">(</span><span class="n">prev</span><span class="o">)</span> <span class="o">{</span> 
+                    <span class="kd">synchronized</span> <span class="o">(</span><span class="n">self</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Now printing: "</span> <span class="o">+</span> <span class="n">name</span><span class="o">);</span>
+                        <span class="o">--</span><span class="n">count</span><span class="o">;</span>
+                        <span class="n">self</span><span class="o">.</span><span class="na">notify</span><span class="o">();</span>
+                    <span class="o">}</span>
+
+                    <span class="k">try</span> <span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="n">prev</span><span class="o">.</span><span class="na">notify</span><span class="o">();</span>
+                        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                            <span class="n">prev</span><span class="o">.</span><span class="na">wait</span><span class="o">();</span>
+                        <span class="o">}</span>
+                    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                    <span class="o">}</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>创建线程并启动：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">InterruptedException</span> <span class="o">{</span>
+        <span class="nc">Object</span> <span class="n">a</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+        <span class="nc">Object</span> <span class="n">b</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+        <span class="nc">Object</span> <span class="n">c</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Object</span><span class="o">();</span>
+
+        <span class="nc">Print</span> <span class="n">printA</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Print</span><span class="o">(</span><span class="s">"A"</span><span class="o">,</span> <span class="n">c</span><span class="o">,</span> <span class="n">a</span><span class="o">);</span>
+        <span class="nc">Print</span> <span class="n">printB</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Print</span><span class="o">(</span><span class="s">"B"</span><span class="o">,</span> <span class="n">a</span><span class="o">,</span> <span class="n">b</span><span class="o">);</span>
+        <span class="nc">Print</span> <span class="n">printC</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Print</span><span class="o">(</span><span class="s">"C"</span><span class="o">,</span> <span class="n">b</span><span class="o">,</span> <span class="n">c</span><span class="o">);</span>
+
+        <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="n">printA</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+        <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+        <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="n">printB</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+        <span class="nc">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+        <span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="n">printC</span><span class="o">).</span><span class="na">start</span><span class="o">();</span>
+
+    <span class="o">}</span>
+
+<span class="c1">//    Result:</span>
+<span class="c1">// </span>
+<span class="c1">// Now printing: A</span>
+<span class="c1">// Now printing: B</span>
+<span class="c1">// Now printing: C</span>
+<span class="c1">// Now printing: A</span>
+<span class="c1">// Now printing: B</span>
+<span class="c1">// Now printing: C</span>
+<span class="c1">//      ···</span>
+<span class="c1">//      ···</span>
+</code></pre></div></div>
+
+<p>除了使用 synchronized 关键字和对象自带的 wait() 与 notify() 方法来实现外，还可以使用 JUC 包下的 Lock 锁以及 Condition 来实现。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrintUseLock</span> <span class="o">{</span>
+
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Lock</span> <span class="n">lock</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ReentrantLock</span><span class="o">();</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Condition</span> <span class="no">A</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Condition</span> <span class="no">B</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">Condition</span> <span class="no">C</span> <span class="o">=</span> <span class="n">lock</span><span class="o">.</span><span class="na">newCondition</span><span class="o">();</span>
+
+        <span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+
+        <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ThreadA</span> <span class="kd">extends</span> <span class="nc">Thread</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="no">A</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+                        <span class="o">}</span>
+                        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Now printing: A"</span><span class="o">);</span>
+                        <span class="n">count</span><span class="o">++;</span>
+                        <span class="no">B</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+                    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ThreadB</span> <span class="kd">extends</span> <span class="nc">Thread</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="no">B</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+                        <span class="o">}</span>
+                        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Now printing: B"</span><span class="o">);</span>
+                        <span class="n">count</span><span class="o">++;</span>
+                        <span class="no">C</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+                    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+
+        <span class="kd">static</span> <span class="kd">class</span> <span class="nc">ThreadC</span> <span class="kd">extends</span> <span class="nc">Thread</span> <span class="o">{</span>
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+                <span class="k">try</span> <span class="o">{</span>
+                    <span class="n">lock</span><span class="o">.</span><span class="na">lock</span><span class="o">();</span>
+                    <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+                        <span class="k">while</span> <span class="o">(</span><span class="n">count</span> <span class="o">%</span> <span class="mi">3</span> <span class="o">!=</span> <span class="mi">2</span><span class="o">)</span> <span class="o">{</span>
+                            <span class="no">C</span><span class="o">.</span><span class="na">await</span><span class="o">();</span>
+                        <span class="o">}</span>
+                        <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Now printing: C"</span><span class="o">);</span>
+                        <span class="n">count</span><span class="o">++;</span>
+                        <span class="no">A</span><span class="o">.</span><span class="na">signal</span><span class="o">();</span>
+                    <span class="o">}</span>
+                <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">InterruptedException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+                <span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+                    <span class="n">lock</span><span class="o">.</span><span class="na">unlock</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>]]></content><author><name>uponclouds</name></author><category term="Java" /><summary type="html"><![CDATA[学习多线程最好的方法就是敲代码了，可以通过练习几个简单的 Demo 来理解 Java 中的多线程之间的协同工作。]]></summary></entry><entry><title type="html">LFU算法</title><link href="/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95.html" rel="alternate" type="text/html" title="LFU算法" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95</id><content type="html" xml:base="/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95.html"><![CDATA[<p>LFU(Least Frequently Used)算法是一种经典的缓存淘汰策略算法，它的核心思想是淘汰最近最少使用的对象。在操作系统中，它可以用作进行页面置换算法。</p>
+
+<h2 id="算法题例">算法题例</h2>
+
+<p>(LeetCode-460)实现 <code class="language-plaintext highlighter-rouge">LFUCache</code> 类：</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">LFUCache(int capacity)</code> - 用数据结构的容量 <code class="language-plaintext highlighter-rouge">capacity</code> 初始化对象</li>
+  <li><code class="language-plaintext highlighter-rouge">int get(int key)</code> - 如果键 <code class="language-plaintext highlighter-rouge">key</code> 存在于缓存中，则获取键的值，否则返回 <code class="language-plaintext highlighter-rouge">-1</code></li>
+  <li><code class="language-plaintext highlighter-rouge">void put(int key, int value)</code> - 如果键 <code class="language-plaintext highlighter-rouge">key</code> 已存在，则变更其值；如果键不存在，请插入键值对。当缓存达到其容量 <code class="language-plaintext highlighter-rouge">capacity</code> 时，则应该在插入新项之前，移除最不经常使用的项。在此问题中，当存在平局（即两个或更多个键具有相同使用频率）时，应该去除最近最久未使用的键</li>
+</ul>
+
+<p>为了确定最不常使用的键，可以为缓存中的每个键维护一个使用计数器 。使用计数最小的键是最久未使用的键。当一个键首次插入到缓存中时，它的使用计数器被设置为 <code class="language-plaintext highlighter-rouge">1</code> (由于 <code class="language-plaintext highlighter-rouge">put</code> 操作)。对缓存中的键执行<code class="language-plaintext highlighter-rouge"> get</code> 或 <code class="language-plaintext highlighter-rouge">put</code> 操作，使用计数器的值将会递增。函数 <code class="language-plaintext highlighter-rouge">get</code> 和 <code class="language-plaintext highlighter-rouge">put</code> 必须以 <code class="language-plaintext highlighter-rouge">O(1)</code> 的平均时间复杂度运行。</p>
+
+<h3 id="题解">题解</h3>
+
+<p>首先<code class="language-plaintext highlighter-rouge">LFU</code>算法要求我们在<code class="language-plaintext highlighter-rouge">get</code>时要达到 <code class="language-plaintext highlighter-rouge">O(1)</code>时间复杂度，那么首先想到的就是利用 <code class="language-plaintext highlighter-rouge">HashMap</code>来进行储存。而且我们在进行<code class="language-plaintext highlighter-rouge">get</code>时，相当于访问了这个元素，那么它的访问频率也需要更新。在进行<code class="language-plaintext highlighter-rouge">put</code>时，在空间不足时要删除某个对象，要想达到<code class="language-plaintext highlighter-rouge">O(1)</code>的时间复杂度那就必须构建一个 <strong>频率–&gt;对象</strong> 的一个映射，这样一来就需要两个<code class="language-plaintext highlighter-rouge">HashMap</code>来处理了。同时我们要注意的是，多个元素可能会有相同的频率值，因此 <strong>频率–&gt;对象</strong> 映射中的 <code class="language-plaintext highlighter-rouge">value</code>部分是若干个对象，那么我们可以采用双链表来将这些对象串起来，以方便我们进行增删。</p>
+
+<p>在使用 <code class="language-plaintext highlighter-rouge">Java</code>来编写算法时，可以使用 <code class="language-plaintext highlighter-rouge">LinkedHashSet</code>集合来代替双链表进行处理，当然，为了更好地理解，首先还是自己编写一个双向链表来处理，代码如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LFUCache</span> <span class="o">{</span>
+    <span class="c1">// 基本节点</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="c1">// freq 为对象的频率，每当get或put相同key时就会增1</span>
+        <span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">freq</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">next</span><span class="o">,</span> <span class="n">pre</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">freq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 双向节点链表</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">NodeList</span> <span class="o">{</span>
+        <span class="c1">// 为了方便增删，设置head与tail为链表的头和尾</span>
+        <span class="nc">Node</span> <span class="n">head</span><span class="o">,</span> <span class="n">tail</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">NodeList</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">head</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+      
+        <span class="c1">// 删除链表中第一个节点</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeFirst</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">delNode</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">delNode</span> <span class="o">==</span> <span class="n">tail</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"the NodeList is empty."</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">removeNode</span><span class="o">(</span><span class="n">delNode</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 在链表尾部插入节点</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addLast</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">pre</span><span class="o">;</span>
+            <span class="n">pre</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">;</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="n">size</span><span class="o">++;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 删除链表中指定节点（非head、tail节点）</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeNode</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">pre</span><span class="o">;</span>
+            <span class="nc">Node</span> <span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">pre</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="n">next</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">;</span>
+            <span class="n">size</span><span class="o">--;</span>
+
+            <span class="c1">// help GC</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+  	
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Node</span><span class="o">&gt;</span> <span class="n">nodeMap</span><span class="o">;</span>
+    <span class="c1">// 频率哈希表，key为频率值</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">NodeList</span><span class="o">&gt;</span> <span class="n">freqMap</span><span class="o">;</span>
+    <span class="c1">// 能够储存的最多节点值数</span>
+    <span class="kt">int</span> <span class="n">capacity</span><span class="o">;</span>
+    <span class="c1">// 当前包含节点的最小频率，用于淘汰节点</span>
+    <span class="kt">int</span> <span class="n">minFreq</span><span class="o">;</span>
+    <span class="c1">// 当前节点数量</span>
+    <span class="kt">int</span> <span class="n">currSize</span><span class="o">;</span>
+  
+    <span class="kd">public</span> <span class="nf">LFUCache</span><span class="o">(</span><span class="kt">int</span> <span class="n">capacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">nodeMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;(</span><span class="n">capacity</span><span class="o">);</span>
+        <span class="n">freqMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">freqMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">new</span> <span class="nc">NodeList</span><span class="o">());</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">capacity</span> <span class="o">=</span> <span class="n">capacity</span><span class="o">;</span>
+        <span class="n">currSize</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">minFreq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">nodeMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="c1">// 将对应节点的频率更新</span>
+        <span class="n">freqInc</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 当所给空间大小为0时，跳过，啥也不做</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">capacity</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+        <span class="nc">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">nodeMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 空间不足，需要先删除最少使用的元素</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">capacity</span> <span class="o">==</span> <span class="n">currSize</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 删除节点后为什么不去判断当前链表是否为</span>
+                <span class="c1">// 空然后更新minFreq呢？</span>
+                <span class="c1">// 因为我们接下来是要插入节点的，所以交给#109行代码去做就好啦</span>
+                <span class="n">removeLeastFreqNode</span><span class="o">();</span>
+                <span class="n">currSize</span><span class="o">--;</span>
+            <span class="o">}</span>
+            <span class="c1">// 新建节点，并且存入freqMap和nodeMap</span>
+            <span class="n">currSize</span><span class="o">++;</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+            <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">addLast</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+            <span class="n">nodeMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">node</span><span class="o">);</span>
+
+            <span class="c1">// 考虑这种情况：当现有元素频率都是2或2以上时，minFreq为2，</span>
+            <span class="c1">// 若新增了一个元素，则要将其置为1</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">minFreq</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="n">minFreq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// 走到这里表示存在这个key，只要更新value值</span>
+        <span class="c1">// 和freqMap中对应的频率即可</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+        <span class="n">freqInc</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 用于将节点node从当前频率链表中删除，然后添加到新的频率链表中去
+     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">freqInc</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">freq</span><span class="o">;</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">freq</span><span class="o">++;</span>
+        <span class="nc">NodeList</span> <span class="n">oldList</span> <span class="o">=</span> <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">freq</span><span class="o">);</span>
+
+        <span class="c1">// 如果删除节点后当前链表空了，且最小频率是当前这个频率，则更新最小频率</span>
+        <span class="n">oldList</span><span class="o">.</span><span class="na">removeNode</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">oldList</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">minFreq</span> <span class="o">==</span> <span class="n">freq</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">minFreq</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 把节点添加到新频率（即旧频率+1）链表</span>
+        <span class="n">freqMap</span><span class="o">.</span><span class="na">putIfAbsent</span><span class="o">(</span><span class="n">freq</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="k">new</span> <span class="nc">NodeList</span><span class="o">());</span>
+        <span class="nc">NodeList</span> <span class="n">newList</span> <span class="o">=</span> <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">freq</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">newList</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">removeLeastFreqNode</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">NodeList</span> <span class="n">list</span> <span class="o">=</span> <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">minFreq</span><span class="o">);</span>
+        <span class="nc">Node</span> <span class="n">delNode</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="n">nodeMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">delNode</span><span class="o">.</span><span class="na">key</span><span class="o">);</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">removeFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>]]></content><author><name>uponclouds</name></author><category term="算法" /><summary type="html"><![CDATA[LFU(Least Frequently Used)算法是一种经典的缓存淘汰策略算法，它的核心思想是淘汰最近最少使用的对象。在操作系统中，它可以用作进行页面置换算法。]]></summary></entry><entry><title type="html">QUIC网络协议</title><link href="/jekyll-theme-yat/%E7%BD%91%E7%BB%9C/2022/08/18/QUIC%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE.html" rel="alternate" type="text/html" title="QUIC网络协议" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/%E7%BD%91%E7%BB%9C/2022/08/18/QUIC%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE</id><content type="html" xml:base="/jekyll-theme-yat/%E7%BD%91%E7%BB%9C/2022/08/18/QUIC%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE.html"><![CDATA[<p>QUIC，Quick UDP Internet Connection， 从名字可以看出，是一种基于 UDP 协议实现的应用层网络协议。他的出现主要是为了解决 TCP 协议的一些痛点：</p>
+
+<ul>
+  <li>TCP 建立连接的延迟</li>
+  <li>TCP存在队头阻塞问题</li>
+  <li>升级 TCP 的工作很困难</li>
+  <li>基于 TCP 的网络迁移后需要重新建立</li>
+</ul>
+
+<p>QUIC 提高了目前使用 TCP 的面向连接的网络应用的性能。它通过使用用户数据报协议（UDP）在两个端点之间创建若干个多路连接来实现这一目标，其目的是为了在网络层淘汰 TCP，以满足许多应用的需求，因此该协议偶尔也会获得 “TCP/2” 的昵称。QUIC 的协议栈如下：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220810142337.png" alt="" /></p>
+
+<p>可以看出，QUIC = HTTP/2 + TLS + UDP</p>
+
+<h2 id="实现原理">实现原理</h2>
+
+<h3 id="数据格式">数据格式</h3>
+
+<p>一个 QUIC 数据包的格式如下：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220810142750.png" alt="" /></p>
+
+<p>主要由 Header 与 Data 组成，在 Data 中有许多 Frame ，其中 Frame Type 可以有很多种，比如：Stream、ACK、Padding、Window_Update、Blocked 等，传输数据时一般使用的是 Stream 类型，因此我们重点介绍 Stream 帧：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220810143721.png" alt="" /></p>
+
+<p>一个 Packet 报文中可以存多个这样的 Stream Frame，对于 Stream 类型的帧，我们可以理解为其就是一条 HTTP 请求。</p>
+
+<ul>
+  <li><strong>Stream ID 作用</strong>：多个并发传输的 HTTP 消息，通过不同的 Stream ID 加以区别，类似于 HTTP2 的 Stream ID；</li>
+  <li><strong>Offset 作用</strong>：类似于 TCP 协议中的 Seq 序号，<strong>保证数据的顺序性和可靠性</strong>；</li>
+  <li><strong>Length 作用</strong>：指明了 Frame 数据的长度。</li>
+</ul>
+
+<h3 id="连接建立">连接建立</h3>
+
+<p>对于 HTTP/1 和 HTTP/2 协议，TCP 和 TLS 是分层的，分别属于内核实现的传输层、openssl 库实现的表示层，因此它们难以合并在一起，需要分批次来握手，先 TCP 握手（1RTT），再 TLS 握手（2RTT），所以需要 3RTT 的延迟才能传输数据，就算 Session 会话服用，也需要至少 2 个 RTT。</p>
+
+<p>但是 HTTP/3 的 QUIC 协议并不是与 TLS 分层，而是QUIC 内部包含了 TLS，它在自己的帧会携带 TLS 里的“记录”，再加上 QUIC 使用的是 TLS1.3，因此仅需 1 个 RTT 就可以「同时」完成建立连接与密钥协商，甚至在第二次连接的时候，应用数据包可以和 QUIC 握手信息（连接信息 + TLS 信息）一起发送，达到 0-RTT 的效果。</p>
+
+<p><img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221014144211.png" alt="" /></p>
+
+<p>从图中可以看出，TLS 握手需要 1 个 RTT，也就是 1 次 RTT 就把通信密钥协商好了，这是怎么做到的？</p>
+
+<p>（1）客户端：生成随机数 a，选择公开的大数 G 和 P，计算 A=a*G%P，将 A 和 G 发送给服务器，也就是 Client Hello 消息</p>
+
+<p>（2）服务器：生成随机数 b，计算 B=b*G%P，将 B 发送给客户端，也就是 Server Hello 消息</p>
+
+<p>（3）客户端：使用 ECDH 算法生成通信密钥 KEY = a<em>B = a</em>b*G%P</p>
+
+<p>（4）服务器：使用 ECDH 算法生成通信密钥 KEY = b<em>A = b</em>a*G%P</p>
+
+<p>所以，这里的关键就是 ECDH 算法，a 和 b 是客户端和服务器的私钥，是不公开的，而其他参数是公开的。ECDH 算法有个非常重要的特征：即使知道 A、G、P，通过 A = a*G%P 公式也是无法推到出 a 的，保证了私钥的安全性。</p>
+
+<p>当完成初次连接后，后序要恢复连接可以做到 0-RTT，客户端通过缓存 ServerConfig （B=b*G%P），下次连接时直接使用缓存数据计算通信密钥：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221014145210.png" alt="" /></p>
+
+<h3 id="连接迁移">连接迁移</h3>
+
+<p>基于 TCP 传输协议的 HTTP 协议，由于是通过四元组（源 IP、源端口、目的 IP、目的端口）确定一条 TCP 连接。因此当出现这种情况：移动设备的网络从 4G 切换到 WIFI ，那么就需要断开连接重新握手建立 TCP 连接。而建立连接的过程包含 TCP 三次握手和 TLS 四次握手的时延，以及 TCP 慢启动的减速过程，给用户的感觉就是网络突然卡顿了一下，因此连接的迁移成本是很高的。</p>
+
+<p>与 TCP 不同的是，QUIC 的连接是基于 64 位的 Connection ID，网络切换并不会影响 Connection ID 的变化，连接在逻辑上仍然是通的。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221014150106.png" alt="" /></p>
+
+<p>假设客户端先使用 IP1 发送了 1 和 2 数据包，之后切换网络，IP 变更为 IP2，发送了 3 和 4 数据包，服务器根据数据包头部的 Connection ID 字段可以判断这 4 个包是来自于同一个客户端。QUIC 能实现连接迁移的根本原因是底层使用 UDP 协议就是面向无连接的。</p>
+
+<h2 id="可靠传输">可靠传输</h2>
+
+<p>我们知道，TCP 依靠序列号、滑动窗口等机制来保证传输的可靠性，那么 QUIC 为了保证可靠传输也需要实现类似的机制。可靠传输有2个重要特点：</p>
+
+<ul>
+  <li>完整性：发送端发出的数据包，接收端都能收到。</li>
+  <li>有序性：接收端能按序组装数据包，解码得到有效的数据。</li>
+</ul>
+
+<p><strong>问题一</strong>：发送端怎么知道发出的包是否被接收端收到呢？答：通过包号和确认应答号。</p>
+
+<blockquote>
+  <p>包号就是 Header 中的 Packet Number，确认应答包则是将 Data 中的 Frame Type 改为 ACK</p>
+</blockquote>
+
+<p><img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221013162219.png" alt="" /></p>
+
+<p>Packet Number 是<strong>严格递增</strong>的，也就是说就是 Packet N 丢失了，重传的 Packet Number 也不是N，而是一个比N大的值。</p>
+
+<p><strong>问题二</strong>：既然包号是单调递增的，那接收端怎么保证数据的有序性呢？答：通过数据偏移量 offset。</p>
+
+<p>接收端通过 offset 字段就可以对异步到达的数据包进行排序了。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221013163024.png" alt="" /></p>
+
+<p><strong>问题三</strong>：为什么要设计 Packet Number 和 offset，直接和 TCP 一样只用包号排序不好吗？答：解决 TCP 的重传歧义问题。</p>
+
+<p>在 TCP 中，RTO（超时时间）是基于 RTT （往返时间） 来计算的，如果 RTT 计算的不精准，那么 RTO 计算的也不会精准。当 TCP 发生超时重传后，客户端发起重传，然后接收到了服务端确认 ACK 。由于客户端原始报文和重传报文序列号都是一样的，那么服务端针对这两个报文回复的都是相同的 ACK。</p>
+
+<p>这样的话，客户端就无法判断出是「原始报文的响应」还是「重传报文的响应」，这样在计算 RTT 时应该选择从发送原始报文开始计算，还是重传原始报文开始计算呢？</p>
+
+<ul>
+  <li>如果算成原始报文的响应，但实际上是重传报文的响应（上图左），会导致采样 RTT 变大；</li>
+  <li>如果算成重传报文的响应，但实际上是原始报文的响应（上图右），又很容易导致采样 RTT 过小；</li>
+</ul>
+
+<p>因此，QUIC 使用严格递增的 Packet Number ，就能解决这个歧义性问题。</p>
+
+<h2 id="流量与拥塞控制">流量与拥塞控制</h2>
+
+<h3 id="流量控制">流量控制</h3>
+
+<p>QUIC 实现流量控制的方式：</p>
+
+<ul>
+  <li>通过 Window_Update 帧告诉对端自己可以接收的字节数，这样发送方就不会发送超过这个数量的数据。</li>
+  <li>通过 Blocked 帧告诉对端由于流量控制被阻塞了，无法发送数据。</li>
+</ul>
+
+<p>对于 TCP 来说，一个连接就一个滑动窗口，因此容易造成整个连接的阻塞。而 QUIC 的滑动窗口分为 Connection 和 Stream 两个级别：</p>
+
+<ul>
+  <li><strong>Stream 级别的流量控制</strong>：Stream 可以认为就是一条 HTTP 请求，每个 Stream 都有独立的滑动窗口，所以每个 Stream 都可以做流量控制，防止单个 Stream 消耗连接（Connection）的全部接收缓冲。</li>
+  <li><strong>Connection 流量控制</strong>：限制连接中所有 Stream 相加起来的总字节数，防止发送方超过连接的缓冲容量。</li>
+</ul>
+
+<h3 id="拥塞控制">拥塞控制</h3>
+
+<p>QUIC 协议当前默认使用了 TCP 的 Cubic 拥塞控制算法（慢开始、拥塞避免、快重传、快恢复策略），同时也支持 CubicBytes、Reno、RenoBytes、BBR、PCC 等拥塞控制算法，相当于将 TCP 的拥塞控制算法照搬过来了。</p>
+
+<p>QUIC 是处于应用层的，应用程序层面就能实现不同的拥塞控制算法，不需要操作系统，不需要内核支持。传统的 TCP 拥塞控制，必须要端到端的网络协议栈支持，才能实现控制效果。而内核和操作系统的部署成本非常高，升级周期很长，所以 TCP 拥塞控制算法迭代速度是很慢的。而 <strong>QUIC 可以随浏览器更新，QUIC 的拥塞控制算法就可以有较快的迭代速度</strong>。</p>
+
+<p>TCP 更改拥塞控制算法是对系统中所有应用都生效，无法根据不同应用设定不同的拥塞控制策略。但是因为 QUIC 处于应用层，所以就<strong>可以针对不同的应用设置不同的拥塞控制算法</strong>，这样灵活性就很高了。</p>
+
+<h2 id="队头阻塞的解决策略">队头阻塞的解决策略</h2>
+
+<p>TCP 的一大缺点是存在队头阻塞问题，如在 HTTP/2 （目前最常用的HTTP协议）中，由于所有请求流都共享一个TCP 的滑动窗口，而会造成队头阻塞。队头阻塞主要分为：</p>
+
+<ul>
+  <li><strong>发送窗口的队头阻塞</strong>：TCP 发送出去的数据，都是需要按序确认的，只有在数据都被按顺序确认完后，发送窗口才会往前滑动。当某个数据报文丢失或者其对应的 ACK 报文在网络中丢失，会导致发送方无法移动发送窗口，这时就无法再发送新的数据，只能超时重传这个数据报文，直到收到这个重传报文的 ACK，发送窗口才会移动，继续后面的发送行为。</li>
+  <li><strong>接收窗口的队头阻塞</strong>：接收方收到的数据范围必须在接收窗口范围内，如果收到超过接收窗口范围的数据，就会丢弃该数据。当接收窗口收到有序数据时，接收窗口才能往前滑动，然后那些已经接收并且被确认的「有序」数据就可以被应用层读取。</li>
+</ul>
+
+<p>QUIC 借鉴了 HTTP/2 里的 Stream 的概念，在一条 QUIC 连接上可以并发发送多个 HTTP 请求 (Stream)，但与 HTTP/2 不同的是，QUIC 给每一个 Stream 都分配了一个独立的滑动窗口，这样使得一个连接上的多个 Stream 之间没有依赖关系，都是相互独立的，各自控制的滑动窗口。</p>
+
+<p>例如：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20221013214505.png" alt="" /></p>
+
+<p>A 请求流上的丢包不会影响 B 请求流上的数据发送。但是，对于每个请求流而言，也是存在队头阻塞问题的，也就是说，虽然 QUIC 解决了 TCP 层的队头阻塞，但仍然存在单条流上的队头阻塞。这就是 QUIC 声明的无队头阻塞的多路复用。</p>
+
+<h2 id="参考">参考</h2>
+
+<p>[1] <a href="https://zhuanlan.zhihu.com/p/405387352">QUIC 协议详解</a></p>
+
+<p>[2] <a href="https://mp.weixin.qq.com/s/hX75YxVOMtsnB6Sm_yjm0g">如何用UDP实现可靠传输</a></p>
+
+<p>[3] <a href="https://mp.weixin.qq.com/s/DHvvp6EUR5tDffJqzVir0A">天下武功，唯’QUICK’不破，探究QUIC的五大特性及外网表现</a></p>]]></content><author><name>uponclouds</name></author><category term="网络" /><summary type="html"><![CDATA[QUIC，Quick UDP Internet Connection， 从名字可以看出，是一种基于 UDP 协议实现的应用层网络协议。他的出现主要是为了解决 TCP 协议的一些痛点：]]></summary></entry><entry><title type="html">使用SSH连接Github失败</title><link href="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/%E4%BD%BF%E7%94%A8SSH%E8%BF%9E%E6%8E%A5Github%E5%A4%B1%E8%B4%A5.html" rel="alternate" type="text/html" title="使用SSH连接Github失败" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/%E4%BD%BF%E7%94%A8SSH%E8%BF%9E%E6%8E%A5Github%E5%A4%B1%E8%B4%A5</id><content type="html" xml:base="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/%E4%BD%BF%E7%94%A8SSH%E8%BF%9E%E6%8E%A5Github%E5%A4%B1%E8%B4%A5.html"><![CDATA[<h1 id="起因">起因</h1>
+<p>之前在某个项目中使用Git将本地代码push到了Github，一直没出现任何问题，在隔了一段时间后再次使用Git push代码，却出现了以下图片出现的错误。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/ssh01.png#crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;id=SLrGp&amp;originHeight=142&amp;originWidth=820&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;status=done&amp;style=none&amp;title=" alt="" />
+在尝试使用  <code class="language-plaintext highlighter-rouge">ssh -v git@github.com</code> 后发现果然连接不上，同样提示 Permission denied。在进入 <code class="language-plaintext highlighter-rouge">~/.ssh/</code> 文件夹后发现相关的私钥也存在，这就很奇怪了。</p>
+<h1 id="解决方法">解决方法</h1>
+<p>首先说一下我的错误原因，在 ~/.ssh/ 文件夹下有个 config 文件，这个文件中配置的是你的密钥信息，github的并未在其中，因此在连接github时ssh agent在这个配置文件中找不到连接github的信息，因此出现错误。那么我们可以使用 <code class="language-plaintext highlighter-rouge">ssh-add ~/.ssh/&lt;your_private_key_file&gt;</code> 来将密钥文件加载进缓存中。你可以使用 <code class="language-plaintext highlighter-rouge">ssh-add -l</code> 来查看是否成功将密钥加入缓存。</p>]]></content><author><name>uponclouds</name></author><category term="工具" /><summary type="html"><![CDATA[起因 之前在某个项目中使用Git将本地代码push到了Github，一直没出现任何问题，在隔了一段时间后再次使用Git push代码，却出现了以下图片出现的错误。 在尝试使用 ssh -v git@github.com 后发现果然连接不上，同样提示 Permission denied。在进入 ~/.ssh/ 文件夹后发现相关的私钥也存在，这就很奇怪了。 解决方法 首先说一下我的错误原因，在 ~/.ssh/ 文件夹下有个 config 文件，这个文件中配置的是你的密钥信息，github的并未在其中，因此在连接github时ssh agent在这个配置文件中找不到连接github的信息，因此出现错误。那么我们可以使用 ssh-add ~/.ssh/&lt;your_private_key_file&gt; 来将密钥文件加载进缓存中。你可以使用 ssh-add -l 来查看是否成功将密钥加入缓存。]]></summary></entry><entry><title type="html">零拷贝</title><link href="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/%E9%9B%B6%E6%8B%B7%E8%B4%9D.html" rel="alternate" type="text/html" title="零拷贝" /><published>2022-08-18T00:00:00+00:00</published><updated>2022-08-18T00:00:00+00:00</updated><id>/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/%E9%9B%B6%E6%8B%B7%E8%B4%9D</id><content type="html" xml:base="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/%E9%9B%B6%E6%8B%B7%E8%B4%9D.html"><![CDATA[<h2 id="什么是零拷贝">什么是零拷贝</h2>
+
+<p>零拷贝字面上的意思包括两个，“零”和“拷贝”：</p>
+
+<ul>
+  <li>“拷贝”：就是指数据从一个存储区域转移到另一个存储区域。</li>
+  <li>“零” ：表示次数为0，它表示拷贝数据的次数为0。</li>
+</ul>
+
+<p>合起来，那<strong>零拷贝</strong>就是不需要将数据从一个存储区域复制到另一个存储区域咯。</p>
+
+<div class="note sd-yinhao">零拷贝是指计算机执行IO操作时，CPU不需要将数据从一个存储区域复制到另一个存储区域，从而可以减少上下文切换以及CPU的拷贝时间。它是一种I/O操作优化技术。</div>
+
+<h2 id="传统-io-的执行流程">传统 IO 的执行流程</h2>
+
+<p>做服务端开发的小伙伴，文件下载功能应该实现过不少了吧。如果你实现的是一个<strong>web程序</strong>，前端请求过来，服务端的任务就是：将服务端主机磁盘中的文件从已连接的socket发出去。关键实现代码如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">while</span><span class="p">((</span><span class="n">n</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">diskfd</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">BUF_SIZE</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">write</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span> <span class="n">buf</span> <span class="p">,</span> <span class="n">n</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>传统的IO流程，包括read和write的过程。</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">read</code>：把数据从磁盘读取到内核缓冲区，再拷贝到用户缓冲区</li>
+  <li><code class="language-plaintext highlighter-rouge">write</code>：先把数据写入到socket缓冲区，最后写入网卡设备。</li>
+</ul>
+
+<p><strong>流程图如下：</strong></p>
+
+<p><img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714222033.png" alt="" /></p>
+
+<ul>
+  <li>用户应用进程调用read函数，向操作系统发起IO调用，<strong>上下文从用户态转为内核态（切换1）</strong></li>
+  <li>DMA控制器把数据从磁盘中，读取到内核缓冲区。</li>
+  <li>CPU把内核缓冲区数据，拷贝到用户应用缓冲区，<strong>上下文从内核态转为用户态（切换2）</strong>，read函数返回</li>
+  <li>用户应用进程通过write函数，发起IO调用，<strong>上下文从用户态转为内核态（切换3）</strong></li>
+  <li>CPU将用户缓冲区中的数据，拷贝到socket缓冲区</li>
+  <li>DMA控制器把数据从socket缓冲区，拷贝到网卡设备，<strong>上下文从内核态切换回用户态（切换4）</strong>，write函数返回</li>
+</ul>
+
+<p>从流程图可以看出，<strong>传统IO的读写流程</strong>，包括了4次上下文切换（4次用户态和内核态的切换），4次数据拷贝（<strong>两次CPU拷贝以及两次的DMA拷贝</strong>)，那什么是DMA拷贝呢？</p>
+
+<h2 id="零拷贝相关的知识点">零拷贝相关的知识点</h2>
+
+<h3 id="内核空间和用户空间">内核空间和用户空间</h3>
+
+<p>我们电脑上跑着的应用程序，其实是需要经过<strong>操作系统</strong>，才能做一些特殊操作，如磁盘文件读写、内存的读写等等。因为这些都是比较危险的操作，<strong>不可以由应用程序乱来</strong>，只能交给底层操作系统来。</p>
+
+<p>因此，操作系统为每个进程都分配了内存空间，一部分是用户空间，一部分是内核空间。<strong>内核空间是操作系统内核访问的区域，是受保护的内存空间，而用户空间是用户应用程序访问的内存区域。</strong> 以32位操作系统为例，它会为每一个进程都分配了<strong>4G</strong>(2的32次方)的内存空间。</p>
+
+<ul>
+  <li>内核空间：主要提供进程调度、内存分配、连接硬件资源等功能</li>
+  <li>用户空间：提供给各个程序进程的空间，它不具有访问内核空间资源的权限，如果应用程序需要使用到内核空间的资源，则需要通过系统调用来完成。进程从用户空间切换到内核空间，完成相关操作后，再从内核空间切换回用户空间。</li>
+</ul>
+
+<h3 id="什么是用户态内核态">什么是用户态、内核态</h3>
+
+<ul>
+  <li>如果进程运行于内核空间，被称为进程的内核态</li>
+  <li>如果进程运行于用户空间，被称为进程的用户态。</li>
+</ul>
+
+<h3 id="什么是上下文切换">什么是上下文切换</h3>
+
+<ul>
+  <li>什么是CPU上下文？</li>
+</ul>
+
+<div class="note sd-yinhao">CPU 寄存器，是CPU内置的容量小、但速度极快的内存。而程序计数器，则是用来存储 CPU 正在执行的指令位置、或者即将执行的下一条指令位置。它们都是 CPU 在运行任何任务前，必须的依赖环境，因此叫做CPU上下文。</div>
+
+<ul>
+  <li>什么是<strong>CPU上下文切换</strong>？</li>
+</ul>
+
+<div class="note sd-yinhao">它是指，先把前一个任务的CPU上下文（也就是CPU寄存器和程序计数器）保存起来，然后加载新任务的上下文到这些寄存器和程序计数器，最后再跳转到程序计数器所指的新位置，运行新任务。</div>
+
+<p>一般我们说的<strong>上下文切换</strong>，就是指内核（操作系统的核心）在CPU上对进程或者线程进行切换。进程从用户态到内核态的转变，需要通过<strong>系统调用</strong>来完成。系统调用的过程，会发生<strong>CPU上下文的切换</strong>。</p>
+
+<div class="note sd-yinhao">CPU 寄存器里原来用户态的指令位置，需要先保存起来。接着，为了执行内核态代码，CPU 寄存器需要更新为内核态指令的新位置。最后才是跳转到内核态运行内核任务。</div>
+
+<p><img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714222448.png" alt="" /></p>
+
+<h3 id="虚拟内存">虚拟内存</h3>
+
+<p>现代操作系统使用虚拟内存，即虚拟地址取代物理地址，使用虚拟内存可以有2个好处：</p>
+
+<ul>
+  <li>虚拟内存空间可以远远大于物理内存空间</li>
+  <li>多个虚拟内存可以指向同一个物理地址</li>
+</ul>
+
+<p>正是<strong>多个虚拟内存可以指向同一个物理地址</strong>，可以把内核空间和用户空间的虚拟地址映射到同一个物理地址，这样的话，就可以减少IO的数据拷贝次数啦，示意图如下<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714222532.png" alt="" /></p>
+
+<h3 id="dma技术">DMA技术</h3>
+
+<p>DMA，英文全称是 <strong>Direct Memory Access</strong>，即直接内存访问。<strong>DMA **本质上是一块主板上独立的芯片，允许外设设备和内存存储器之间直接进行 IO 数据传输，其过程</strong>不需要CPU的参与**。</p>
+
+<p>我们一起来看下 IO 流程，DMA 帮忙做了什么事情:<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714222612.png" alt="" /></p>
+
+<ul>
+  <li>用户应用进程调用read函数，向操作系统发起IO调用，进入阻塞状态，等待数据返回。</li>
+  <li>CPU收到指令后，对DMA控制器发起指令调度。</li>
+  <li>DMA收到IO请求后，将请求发送给磁盘；</li>
+  <li>磁盘将数据放入磁盘控制缓冲区，并通知DMA。</li>
+  <li>DMA将数据从磁盘控制器缓冲区拷贝到内核缓冲区。</li>
+  <li>DMA向CPU发出数据读完的信号，把工作交换给CPU，由CPU负责将数据从内核缓冲区拷贝到用户缓冲区。</li>
+  <li>用户应用进程由内核态切换回用户态，解除阻塞状态。</li>
+</ul>
+
+<p>可以发现，DMA做的事情很清晰啦，它主要就是<strong>帮忙CPU转发一下IO请求，以及拷贝数据</strong>。为什么需要它的？</p>
+
+<div class="note sd-yinhao">主要就是效率，它帮忙CPU做事情，这时候，CPU就可以闲下来去做别的事情，提高了CPU的利用效率。大白话解释就是，CPU老哥太忙太累啦，所以他找了个小弟（名叫DMA） ，替他完成一部分的拷贝工作，这样CPU老哥就能着手去做其他事情。</div>
+
+<h2 id="零拷贝实现的几种方式">零拷贝实现的几种方式</h2>
+
+<p>零拷贝并不是没有拷贝数据，而是减少用户态/内核态的切换次数以及CPU拷贝的次数。零拷贝实现有多种方式，分别是</p>
+
+<ul>
+  <li>mmap+write</li>
+  <li>sendfile</li>
+  <li>带有DMA收集拷贝功能的sendfile</li>
+</ul>
+
+<h3 id="mmapwrite实现的零拷贝">mmap+write实现的零拷贝</h3>
+
+<p>mmap 的函数原型如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="nf">mmap</span><span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="n">addr</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">length</span><span class="p">,</span> <span class="kt">int</span> <span class="n">prot</span><span class="p">,</span> <span class="kt">int</span> <span class="n">flags</span><span class="p">,</span> <span class="kt">int</span> <span class="n">fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="n">offset</span><span class="p">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>addr：指定映射的虚拟内存地址</li>
+  <li>length：映射的长度</li>
+  <li>prot：映射内存的保护模式</li>
+  <li>flags：指定映射的类型</li>
+  <li>fd:进行映射的文件句柄</li>
+  <li>offset:文件偏移量</li>
+</ul>
+
+<p>前面一小节，零拷贝相关的知识点回顾，我们介绍了<strong>虚拟内存</strong>，可以把内核空间和用户空间的虚拟地址映射到同一个物理地址，从而减少数据拷贝次数！mmap就是用了虚拟内存这个特点，它将内核中的读缓冲区与用户空间的缓冲区进行映射，所有的IO都在内核中完成。</p>
+
+<p><code class="language-plaintext highlighter-rouge">mmap+write</code>实现的零拷贝流程如下：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714222812.png" alt="" /></p>
+
+<ul>
+  <li>用户进程通过<code class="language-plaintext highlighter-rouge">mmap方法</code>向操作系统内核发起IO调用，<strong>上下文从用户态切换为内核态</strong>。</li>
+  <li>CPU利用DMA控制器，把数据从硬盘中拷贝到内核缓冲区。</li>
+  <li><strong>上下文从内核态切换回用户态</strong>，mmap方法返回。</li>
+  <li>用户进程通过<code class="language-plaintext highlighter-rouge">write</code>方法向操作系统内核发起IO调用，<strong>上下文从用户态切换为内核态</strong>。</li>
+  <li>CPU将内核缓冲区的数据拷贝到的socket缓冲区。</li>
+  <li>CPU利用DMA控制器，把数据从socket缓冲区拷贝到网卡，<strong>上下文从内核态切换回用户态</strong>，write调用返回。</li>
+</ul>
+
+<p>可以发现，<code class="language-plaintext highlighter-rouge">mmap+write</code>实现的零拷贝，I/O发生了<strong>4</strong>次用户空间与内核空间的上下文切换，以及3次数据拷贝。其中3次数据拷贝中，包括了<strong>2次DMA拷贝和1次CPU拷贝</strong>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">mmap</code>是将读缓冲区的地址和用户缓冲区的地址进行映射，内核缓冲区和应用缓冲区共享，所以节省了一次CPU拷贝‘’并且用户进程内存是<strong>虚拟的</strong>，只是<strong>映射</strong>到内核的读缓冲区，可以节省一半的内存空间。</p>
+
+<h3 id="sendfile实现的零拷贝">sendfile实现的零拷贝</h3>
+
+<p><code class="language-plaintext highlighter-rouge">sendfile</code>是Linux2.1内核版本后引入的一个系统调用函数，API如下：</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">ssize_t</span> <span class="nf">sendfile</span><span class="p">(</span><span class="kt">int</span> <span class="n">out_fd</span><span class="p">,</span> <span class="kt">int</span> <span class="n">in_fd</span><span class="p">,</span> <span class="kt">off_t</span> <span class="o">*</span><span class="n">offset</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">);</span>
+</code></pre></div></div>
+
+<ul>
+  <li>out_fd:为待写入内容的文件描述符，一个socket描述符。，</li>
+  <li>in_fd:为待读出内容的文件描述符，必须是真实的文件，不能是socket和管道。</li>
+  <li>offset：指定从读入文件的哪个位置开始读，如果为NULL，表示文件的默认起始位置。</li>
+  <li>count：指定在fdout和fdin之间传输的字节数。</li>
+</ul>
+
+<p>sendfile表示在两个文件描述符之间传输数据，它是在<strong>操作系统内核</strong>中操作的，<strong>避免了数据从内核缓冲区和用户缓冲区之间的拷贝操作</strong>，因此可以使用它来实现零拷贝。</p>
+
+<p>sendfile实现的零拷贝流程如下：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714222908.png" alt="sendfile实现的零拷贝" /></p>
+
+<ol>
+  <li>用户进程发起sendfile系统调用，<strong>上下文（切换1）从用户态转向内核态</strong></li>
+  <li>DMA控制器，把数据从硬盘中拷贝到内核缓冲区。</li>
+  <li>CPU将读缓冲区中数据拷贝到socket缓冲区</li>
+  <li>DMA控制器，异步把数据从socket缓冲区拷贝到网卡，</li>
+  <li><strong>上下文（切换2）从内核态切换回用户态</strong>，sendfile调用返回。</li>
+</ol>
+
+<p>可以发现，<code class="language-plaintext highlighter-rouge">sendfile</code>实现的零拷贝，I/O发生了<strong>2</strong>次用户空间与内核空间的上下文切换，以及3次数据拷贝。其中3次数据拷贝中，包括了<strong>2次DMA拷贝和1次CPU拷贝</strong>。那能不能把CPU拷贝的次数减少到0次呢？有的，即<code class="language-plaintext highlighter-rouge">带有DMA收集拷贝功能的sendfile</code>！</p>
+
+<h3 id="sendfiledma-scattergather实现的零拷贝">sendfile+DMA scatter/gather实现的零拷贝</h3>
+
+<p>linux 2.4版本之后，对<code class="language-plaintext highlighter-rouge">sendfile</code>做了优化升级，引入SG-DMA技术，其实就是对DMA拷贝加入了<code class="language-plaintext highlighter-rouge">scatter/gather</code>操作，它可以直接从内核空间缓冲区中将数据读取到网卡。使用这个特点搞零拷贝，即还可以多省去<strong>一次CPU拷贝</strong>。</p>
+
+<p>sendfile+DMA scatter/gather实现的零拷贝流程如下：<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220714223052.png" alt="" /></p>
+
+<ol>
+  <li>用户进程发起sendfile系统调用，<strong>上下文（切换1）从用户态转向内核态</strong>。</li>
+  <li>DMA控制器，把数据从硬盘中拷贝到内核缓冲区。</li>
+  <li>CPU把内核缓冲区中的<strong>文件描述符信息</strong>（包括内核缓冲区的内存地址和偏移量）发送到socket缓冲区。</li>
+  <li>DMA控制器根据文件描述符信息，直接把数据从内核缓冲区拷贝到网卡。</li>
+  <li><strong>上下文（切换2）从内核态切换回用户态</strong>，sendfile调用返回。</li>
+</ol>
+
+<p>可以发现，<code class="language-plaintext highlighter-rouge">sendfile+DMA scatter/gather</code>实现的零拷贝，I/O发生了<strong>2</strong>次用户空间与内核空间的上下文切换，以及2次数据拷贝。其中2次数据拷贝都是包<strong>DMA拷贝</strong>。这就是真正的 <strong>零拷贝（Zero-copy)</strong> 技术，全程都没有通过CPU来搬运数据，所有的数据都是通过DMA来进行传输的。</p>
+
+<h2 id="java提供的零拷贝方式">Java提供的零拷贝方式</h2>
+
+<ul>
+  <li>Java NIO对mmap的支持</li>
+  <li>Java NIO对sendfile的支持</li>
+</ul>
+
+<h3 id="java-nio对mmap的支持">Java NIO对mmap的支持</h3>
+
+<p>Java NIO有一个<code class="language-plaintext highlighter-rouge">MappedByteBuffer</code>的类，可以用来实现内存映射。它的底层是调用了Linux内核的<strong>mmap</strong>的API。</p>
+
+<p><strong>mmap的小demo</strong>如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MmapTest</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">FileChannel</span> <span class="n">readChannel</span> <span class="o">=</span> <span class="nc">FileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="nc">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"./jay.txt"</span><span class="o">),</span> <span class="nc">StandardOpenOption</span><span class="o">.</span><span class="na">READ</span><span class="o">);</span>
+            <span class="nc">MappedByteBuffer</span> <span class="n">data</span> <span class="o">=</span> <span class="n">readChannel</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nc">FileChannel</span><span class="o">.</span><span class="na">MapMode</span><span class="o">.</span><span class="na">READ_ONLY</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">40</span><span class="o">);</span>
+            <span class="nc">FileChannel</span> <span class="n">writeChannel</span> <span class="o">=</span> <span class="nc">FileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="nc">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"./siting.txt"</span><span class="o">),</span> <span class="nc">StandardOpenOption</span><span class="o">.</span><span class="na">WRITE</span><span class="o">,</span> <span class="nc">StandardOpenOption</span><span class="o">.</span><span class="na">CREATE</span><span class="o">);</span>
+            <span class="c1">//数据传输</span>
+            <span class="n">writeChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">data</span><span class="o">);</span>
+            <span class="n">readChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">writeChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span><span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">){</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="java-nio对sendfile的支持">Java NIO对sendfile的支持</h3>
+
+<p>FileChannel的<code class="language-plaintext highlighter-rouge">transferTo()/transferFrom()</code>，底层就是sendfile() 系统调用函数。Kafka 这个开源项目就用到它，平时面试的时候，回答面试官为什么这么快，就可以提到零拷贝<code class="language-plaintext highlighter-rouge">sendfile</code>这个点。</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Override</span>
+<span class="kd">public</span> <span class="kt">long</span> <span class="nf">transferFrom</span><span class="o">(</span><span class="nc">FileChannel</span> <span class="n">fileChannel</span><span class="o">,</span> <span class="kt">long</span> <span class="n">position</span><span class="o">,</span> <span class="kt">long</span> <span class="n">count</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">IOException</span> <span class="o">{</span>
+   <span class="k">return</span> <span class="n">fileChannel</span><span class="o">.</span><span class="na">transferTo</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">count</span><span class="o">,</span> <span class="n">socketChannel</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>sendfile的小demo</strong>如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">SendFileTest</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span>
+            <span class="nc">FileChannel</span> <span class="n">readChannel</span> <span class="o">=</span> <span class="nc">FileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="nc">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"./jay.txt"</span><span class="o">),</span> <span class="nc">StandardOpenOption</span><span class="o">.</span><span class="na">READ</span><span class="o">);</span>
+            <span class="kt">long</span> <span class="n">len</span> <span class="o">=</span> <span class="n">readChannel</span><span class="o">.</span><span class="na">size</span><span class="o">();</span>
+            <span class="kt">long</span> <span class="n">position</span> <span class="o">=</span> <span class="n">readChannel</span><span class="o">.</span><span class="na">position</span><span class="o">();</span>
+            
+            <span class="nc">FileChannel</span> <span class="n">writeChannel</span> <span class="o">=</span> <span class="nc">FileChannel</span><span class="o">.</span><span class="na">open</span><span class="o">(</span><span class="nc">Paths</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"./siting.txt"</span><span class="o">),</span> <span class="nc">StandardOpenOption</span><span class="o">.</span><span class="na">WRITE</span><span class="o">,</span> <span class="nc">StandardOpenOption</span><span class="o">.</span><span class="na">CREATE</span><span class="o">);</span>
+            <span class="c1">//数据传输</span>
+            <span class="n">readChannel</span><span class="o">.</span><span class="na">transferTo</span><span class="o">(</span><span class="n">position</span><span class="o">,</span> <span class="n">len</span><span class="o">,</span> <span class="n">writeChannel</span><span class="o">);</span>
+            <span class="n">readChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+            <span class="n">writeChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+        <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="nc">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">e</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>]]></content><author><name>uponclouds</name></author><category term="操作系统" /><summary type="html"><![CDATA[什么是零拷贝]]></summary></entry><entry><title type="html">Welcome to Jekyll!</title><link href="/jekyll-theme-yat/2018/12/07/welcome-to-jekyll.html" rel="alternate" type="text/html" title="Welcome to Jekyll!" /><published>2018-12-07T00:00:00+00:00</published><updated>2018-12-07T00:00:00+00:00</updated><id>/jekyll-theme-yat/2018/12/07/welcome-to-jekyll</id><content type="html" xml:base="/jekyll-theme-yat/2018/12/07/welcome-to-jekyll.html"><![CDATA[<p>You’ll find this post in your <code class="language-plaintext highlighter-rouge">_posts</code> directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run <code class="language-plaintext highlighter-rouge">jekyll serve</code>, which launches a web server and auto-regenerates your site when a file is updated.</p>
+
+<p>To add new posts, simply add a file in the <code class="language-plaintext highlighter-rouge">_posts</code> directory that follows the convention <code class="language-plaintext highlighter-rouge">YYYY-MM-DD-name-of-post.ext</code> and includes the necessary front matter. Take a look at the source for this post to get an idea about how it works.</p>
+
+<h2 id="section-1">section 1</h2>
+
+<p>Jekyll also offers powerful support for code snippets:</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">def</span> <span class="nf">print_hi</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+<span class="nb">puts</span> <span class="s2">"Hi, </span><span class="si">#{</span><span class="nb">name</span><span class="si">}</span><span class="s2">"</span>
+<span class="k">end</span>
+<span class="n">print_hi</span><span class="p">(</span><span class="s1">'Tom'</span><span class="p">)</span>
+<span class="c1">#=&gt; prints 'Hi, Tom' to STDOUT.</span></code></pre></figure>
+
+<h2 id="section-2">section 2</h2>
+
+<p>Check out the <a href="https://jekyllrb.com/docs/home">Jekyll docs</a> for more info on how to get the most out of Jekyll. File all bugs/feature requests at <a href="https://github.com/jekyll/jekyll">Jekyll’s GitHub repo</a>. If you have questions, you can ask them on <a href="https://talk.jekyllrb.com/">Jekyll Talk</a>.</p>
+
+<p>$ a * b = c ^ b $</p>
+
+<p>$ 2^{\frac{n-1}{3}} $</p>
+
+<p>$ \int_a^b f(x)\,dx. $</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Hello World!"</span><span class="p">;</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// prints 'Hi, Tom' to STDOUT.</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Person</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">age</span><span class="p">):</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="n">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span>
+
+<span class="n">p1</span> <span class="o">=</span> <span class="nc">Person</span><span class="p">(</span><span class="s">"John"</span><span class="p">,</span> <span class="mi">36</span><span class="p">)</span>
+
+<span class="nf">print</span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">name</span><span class="p">)</span>
+<span class="nf">print</span><span class="p">(</span><span class="n">p1</span><span class="p">.</span><span class="n">age</span><span class="p">)</span>
+</code></pre></div></div>]]></content><author><name>Jeffrey</name></author><category term="jekyll" /><category term="theme" /><category term="yat" /><summary type="html"><![CDATA[You’ll find this post in your _posts directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run jekyll serve, which launches a web server and auto-regenerates your site when a file is updated.]]></summary></entry></feed>

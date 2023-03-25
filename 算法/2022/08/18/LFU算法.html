@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>LFU算法 | Gentle He’s Blogs</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="LFU算法">
+<meta name="author" content="uponclouds">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="LFU(Least Frequently Used)算法是一种经典的缓存淘汰策略算法，它的核心思想是淘汰最近最少使用的对象。在操作系统中，它可以用作进行页面置换算法。">
+<meta property="og:description" content="LFU(Least Frequently Used)算法是一种经典的缓存淘汰策略算法，它的核心思想是淘汰最近最少使用的对象。在操作系统中，它可以用作进行页面置换算法。">
+<link rel="canonical" href="/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95.html">
+<meta property="og:url" content="/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95.html">
+<meta property="og:site_name" content="Gentle He’s Blogs">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-08-18T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="LFU算法">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"uponclouds"},"dateModified":"2022-08-18T00:00:00+00:00","datePublished":"2022-08-18T00:00:00+00:00","description":"LFU(Least Frequently Used)算法是一种经典的缓存淘汰策略算法，它的核心思想是淘汰最近最少使用的对象。在操作系统中，它可以用作进行页面置换算法。","headline":"LFU算法","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95.html"},"url":"/jekyll-theme-yat/%E7%AE%97%E6%B3%95/2022/08/18/LFU%E7%AE%97%E6%B3%95.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/jekyll-theme-yat/feed.xml" title="Gentle He's Blogs">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Gentle He's Blogs" src="" onerror="this.style.display='none'">
+  Gentle He's Blogs
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">关于</a><a class="page-link" href="/jekyll-theme-yat/archives.html">归档</a><a class="page-link" href="/jekyll-theme-yat/categories.html">目录</a><a class="page-link" href="/jekyll-theme-yat/">主页</a><a class="page-link" href="/jekyll-theme-yat/tags.html">标签</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">LFU算法</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2022-08-18T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Aug 18, 2022
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 6 mins</span>
+  </p></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <p>LFU(Least Frequently Used)算法是一种经典的缓存淘汰策略算法，它的核心思想是淘汰最近最少使用的对象。在操作系统中，它可以用作进行页面置换算法。</p>
+
+<h2 id="算法题例">算法题例</h2>
+
+<p>(LeetCode-460)实现 <code class="language-plaintext highlighter-rouge">LFUCache</code> 类：</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">LFUCache(int capacity)</code> - 用数据结构的容量 <code class="language-plaintext highlighter-rouge">capacity</code> 初始化对象</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">int get(int key)</code> - 如果键 <code class="language-plaintext highlighter-rouge">key</code> 存在于缓存中，则获取键的值，否则返回 <code class="language-plaintext highlighter-rouge">-1</code>
+</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">void put(int key, int value)</code> - 如果键 <code class="language-plaintext highlighter-rouge">key</code> 已存在，则变更其值；如果键不存在，请插入键值对。当缓存达到其容量 <code class="language-plaintext highlighter-rouge">capacity</code> 时，则应该在插入新项之前，移除最不经常使用的项。在此问题中，当存在平局（即两个或更多个键具有相同使用频率）时，应该去除最近最久未使用的键</li>
+</ul>
+
+<p>为了确定最不常使用的键，可以为缓存中的每个键维护一个使用计数器 。使用计数最小的键是最久未使用的键。当一个键首次插入到缓存中时，它的使用计数器被设置为 <code class="language-plaintext highlighter-rouge">1</code> (由于 <code class="language-plaintext highlighter-rouge">put</code> 操作)。对缓存中的键执行<code class="language-plaintext highlighter-rouge"> get</code> 或 <code class="language-plaintext highlighter-rouge">put</code> 操作，使用计数器的值将会递增。函数 <code class="language-plaintext highlighter-rouge">get</code> 和 <code class="language-plaintext highlighter-rouge">put</code> 必须以 <code class="language-plaintext highlighter-rouge">O(1)</code> 的平均时间复杂度运行。</p>
+
+<h3 id="题解">题解</h3>
+
+<p>首先<code class="language-plaintext highlighter-rouge">LFU</code>算法要求我们在<code class="language-plaintext highlighter-rouge">get</code>时要达到 <code class="language-plaintext highlighter-rouge">O(1)</code>时间复杂度，那么首先想到的就是利用 <code class="language-plaintext highlighter-rouge">HashMap</code>来进行储存。而且我们在进行<code class="language-plaintext highlighter-rouge">get</code>时，相当于访问了这个元素，那么它的访问频率也需要更新。在进行<code class="language-plaintext highlighter-rouge">put</code>时，在空间不足时要删除某个对象，要想达到<code class="language-plaintext highlighter-rouge">O(1)</code>的时间复杂度那就必须构建一个 <strong>频率–&gt;对象</strong> 的一个映射，这样一来就需要两个<code class="language-plaintext highlighter-rouge">HashMap</code>来处理了。同时我们要注意的是，多个元素可能会有相同的频率值，因此 <strong>频率–&gt;对象</strong> 映射中的 <code class="language-plaintext highlighter-rouge">value</code>部分是若干个对象，那么我们可以采用双链表来将这些对象串起来，以方便我们进行增删。</p>
+
+<p>在使用 <code class="language-plaintext highlighter-rouge">Java</code>来编写算法时，可以使用 <code class="language-plaintext highlighter-rouge">LinkedHashSet</code>集合来代替双链表进行处理，当然，为了更好地理解，首先还是自己编写一个双向链表来处理，代码如下：</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">LFUCache</span> <span class="o">{</span>
+    <span class="c1">// 基本节点</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">Node</span> <span class="o">{</span>
+        <span class="c1">// freq 为对象的频率，每当get或put相同key时就会增1</span>
+        <span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">,</span> <span class="n">freq</span><span class="o">;</span>
+        <span class="nc">Node</span> <span class="n">next</span><span class="o">,</span> <span class="n">pre</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">Node</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+            <span class="k">this</span><span class="o">.</span><span class="na">freq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    
+    <span class="c1">// 双向节点链表</span>
+    <span class="kd">private</span> <span class="kd">class</span> <span class="nc">NodeList</span> <span class="o">{</span>
+        <span class="c1">// 为了方便增删，设置head与tail为链表的头和尾</span>
+        <span class="nc">Node</span> <span class="n">head</span><span class="o">,</span> <span class="n">tail</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">size</span><span class="o">;</span>
+        <span class="kd">public</span> <span class="nf">NodeList</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">head</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">tail</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">0</span><span class="o">);</span>
+            <span class="n">head</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">head</span><span class="o">;</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+      
+        <span class="c1">// 删除链表中第一个节点</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeFirst</span><span class="o">()</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">delNode</span> <span class="o">=</span> <span class="n">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">delNode</span> <span class="o">==</span> <span class="n">tail</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="nf">IllegalStateException</span><span class="o">(</span><span class="s">"the NodeList is empty."</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="n">removeNode</span><span class="o">(</span><span class="n">delNode</span><span class="o">);</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 在链表尾部插入节点</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">addLast</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">tail</span><span class="o">.</span><span class="na">pre</span><span class="o">;</span>
+            <span class="n">pre</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">;</span>
+            <span class="n">tail</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">node</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">tail</span><span class="o">;</span>
+            <span class="n">size</span><span class="o">++;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 删除链表中指定节点（非head、tail节点）</span>
+        <span class="kd">public</span> <span class="kt">void</span> <span class="nf">removeNode</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+            <span class="nc">Node</span> <span class="n">pre</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">pre</span><span class="o">;</span>
+            <span class="nc">Node</span> <span class="n">next</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+            <span class="n">pre</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="n">next</span><span class="o">;</span>
+            <span class="n">next</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="n">pre</span><span class="o">;</span>
+            <span class="n">size</span><span class="o">--;</span>
+
+            <span class="c1">// help GC</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">pre</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+            <span class="n">node</span><span class="o">.</span><span class="na">next</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+  	
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">Node</span><span class="o">&gt;</span> <span class="n">nodeMap</span><span class="o">;</span>
+    <span class="c1">// 频率哈希表，key为频率值</span>
+    <span class="nc">Map</span><span class="o">&lt;</span><span class="nc">Integer</span><span class="o">,</span> <span class="nc">NodeList</span><span class="o">&gt;</span> <span class="n">freqMap</span><span class="o">;</span>
+    <span class="c1">// 能够储存的最多节点值数</span>
+    <span class="kt">int</span> <span class="n">capacity</span><span class="o">;</span>
+    <span class="c1">// 当前包含节点的最小频率，用于淘汰节点</span>
+    <span class="kt">int</span> <span class="n">minFreq</span><span class="o">;</span>
+    <span class="c1">// 当前节点数量</span>
+    <span class="kt">int</span> <span class="n">currSize</span><span class="o">;</span>
+  
+    <span class="kd">public</span> <span class="nf">LFUCache</span><span class="o">(</span><span class="kt">int</span> <span class="n">capacity</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">nodeMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;(</span><span class="n">capacity</span><span class="o">);</span>
+        <span class="n">freqMap</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">freqMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="k">new</span> <span class="nc">NodeList</span><span class="o">());</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">capacity</span> <span class="o">=</span> <span class="n">capacity</span><span class="o">;</span>
+        <span class="n">currSize</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="n">minFreq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">get</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">nodeMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        <span class="c1">// 将对应节点的频率更新</span>
+        <span class="n">freqInc</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">node</span><span class="o">.</span><span class="na">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">put</span><span class="o">(</span><span class="kt">int</span> <span class="n">key</span><span class="o">,</span> <span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="c1">// 当所给空间大小为0时，跳过，啥也不做</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">capacity</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="k">return</span><span class="o">;</span>
+
+        <span class="nc">Node</span> <span class="n">node</span> <span class="o">=</span> <span class="n">nodeMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">key</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">node</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// 空间不足，需要先删除最少使用的元素</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">capacity</span> <span class="o">==</span> <span class="n">currSize</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// 删除节点后为什么不去判断当前链表是否为</span>
+                <span class="c1">// 空然后更新minFreq呢？</span>
+                <span class="c1">// 因为我们接下来是要插入节点的，所以交给#109行代码去做就好啦</span>
+                <span class="n">removeLeastFreqNode</span><span class="o">();</span>
+                <span class="n">currSize</span><span class="o">--;</span>
+            <span class="o">}</span>
+            <span class="c1">// 新建节点，并且存入freqMap和nodeMap</span>
+            <span class="n">currSize</span><span class="o">++;</span>
+            <span class="n">node</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Node</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">value</span><span class="o">);</span>
+            <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">addLast</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+            <span class="n">nodeMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">key</span><span class="o">,</span> <span class="n">node</span><span class="o">);</span>
+
+            <span class="c1">// 考虑这种情况：当现有元素频率都是2或2以上时，minFreq为2，</span>
+            <span class="c1">// 若新增了一个元素，则要将其置为1</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">minFreq</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="o">)</span> <span class="n">minFreq</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+            <span class="k">return</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="c1">// 走到这里表示存在这个key，只要更新value值</span>
+        <span class="c1">// 和freqMap中对应的频率即可</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+        <span class="n">freqInc</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="cm">/**
+     * 用于将节点node从当前频率链表中删除，然后添加到新的频率链表中去
+     */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">freqInc</span><span class="o">(</span><span class="nc">Node</span> <span class="n">node</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">freq</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="na">freq</span><span class="o">;</span>
+        <span class="n">node</span><span class="o">.</span><span class="na">freq</span><span class="o">++;</span>
+        <span class="nc">NodeList</span> <span class="n">oldList</span> <span class="o">=</span> <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">freq</span><span class="o">);</span>
+
+        <span class="c1">// 如果删除节点后当前链表空了，且最小频率是当前这个频率，则更新最小频率</span>
+        <span class="n">oldList</span><span class="o">.</span><span class="na">removeNode</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">oldList</span><span class="o">.</span><span class="na">size</span> <span class="o">==</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">minFreq</span> <span class="o">==</span> <span class="n">freq</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">minFreq</span> <span class="o">=</span> <span class="n">freq</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+
+        <span class="c1">// 把节点添加到新频率（即旧频率+1）链表</span>
+        <span class="n">freqMap</span><span class="o">.</span><span class="na">putIfAbsent</span><span class="o">(</span><span class="n">freq</span> <span class="o">+</span> <span class="mi">1</span><span class="o">,</span> <span class="k">new</span> <span class="nc">NodeList</span><span class="o">());</span>
+        <span class="nc">NodeList</span> <span class="n">newList</span> <span class="o">=</span> <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">freq</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="n">newList</span><span class="o">.</span><span class="na">addLast</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">removeLeastFreqNode</span><span class="o">()</span> <span class="o">{</span>
+        <span class="nc">NodeList</span> <span class="n">list</span> <span class="o">=</span> <span class="n">freqMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">minFreq</span><span class="o">);</span>
+        <span class="nc">Node</span> <span class="n">delNode</span> <span class="o">=</span> <span class="n">list</span><span class="o">.</span><span class="na">head</span><span class="o">.</span><span class="na">next</span><span class="o">;</span>
+        <span class="n">nodeMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">delNode</span><span class="o">.</span><span class="na">key</span><span class="o">);</span>
+        <span class="n">list</span><span class="o">.</span><span class="na">removeFirst</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/java/2022/08/18/Java-%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%BA%A4%E6%9B%BF%E6%89%93%E5%8D%B0.html" title="Java 多线程交替打印">Java 多线程交替打印</a><a class="next" href="/jekyll-theme-yat/%E7%BD%91%E7%BB%9C/2022/08/18/QUIC%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE.html" title="QUIC网络协议">QUIC网络协议</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/2017/12/04/plantuml-example.html" title="QUIC网络协议">Plantuml example</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2017/12/15/table-example.html" title="QUIC网络协议">Table example</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2018/05/26/mathjax-test.html" title="QUIC网络协议">Mathjax Test</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/%E9%9B%B6%E6%8B%B7%E8%B4%9D.html" title="QUIC网络协议">零拷贝</a></li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2017-2023 uponclouds</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

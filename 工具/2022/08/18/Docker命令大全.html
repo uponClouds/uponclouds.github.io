@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Docker命令大全 | Gentle He’s Blogs</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="Docker命令大全">
+<meta name="author" content="uponclouds">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="基础命令">
+<meta property="og:description" content="基础命令">
+<link rel="canonical" href="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html">
+<meta property="og:url" content="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html">
+<meta property="og:site_name" content="Gentle He’s Blogs">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-08-18T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Docker命令大全">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"uponclouds"},"dateModified":"2022-08-18T00:00:00+00:00","datePublished":"2022-08-18T00:00:00+00:00","description":"基础命令","headline":"Docker命令大全","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html"},"url":"/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/jekyll-theme-yat/feed.xml" title="Gentle He's Blogs">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Gentle He's Blogs" src="" onerror="this.style.display='none'">
+  Gentle He's Blogs
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">关于</a><a class="page-link" href="/jekyll-theme-yat/archives.html">归档</a><a class="page-link" href="/jekyll-theme-yat/categories.html">目录</a><a class="page-link" href="/jekyll-theme-yat/">主页</a><a class="page-link" href="/jekyll-theme-yat/tags.html">标签</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">Docker命令大全</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2022-08-18T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Aug 18, 2022
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 4 mins</span>
+  </p></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <h2 id="基础命令">基础命令</h2>
+
+<h3 id="帮助命令">帮助命令</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nt">--version</span>  <span class="c"># 显示docker的版本信息</span>
+docker info    <span class="c"># 显示docker的系统信息</span>
+docker 命令 <span class="nt">--help</span>    <span class="c"># 显示帮助命令</span>
+</code></pre></div></div>
+
+<h3 id="镜像命令">镜像命令</h3>
+
+<h4 id="搜索镜像">搜索镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 搜索镜像</span>
+docker search mysql
+<span class="c"># 条件过滤搜索结果</span>
+docker search <span class="nt">--filter</span><span class="o">=</span><span class="nv">STARS</span><span class="o">=</span>5000
+</code></pre></div></div>
+
+<h4 id="拉取镜像">拉取镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 默认拉取最新的镜像</span>
+docker pull mysql
+<span class="c"># 指定版本下载</span>
+docker pull mysql:5.7
+</code></pre></div></div>
+
+<h4 id="查看所有镜像">查看所有镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看所有镜像信息</span>
+docker images <span class="nt">-a</span>
+<span class="c"># 查看所有的镜像id</span>
+docker images <span class="nt">-aq</span>
+</code></pre></div></div>
+
+<h4 id="删除镜像">删除镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#删除指定id的镜像</span>
+docker rmi 镜像id
+docker rmi 镜像id 镜像id 镜像id 镜像id
+<span class="c">#删除指定名称的镜像</span>
+docker rmi mysql:5.7
+<span class="c">#迭代删除所有的镜像</span>
+docker rmi <span class="nt">-f</span> <span class="si">$(</span>docker images  <span class="nt">-aq</span><span class="si">)</span>
+</code></pre></div></div>
+
+<h3 id="容器命令">容器命令</h3>
+
+<h4 id="运行镜像">运行镜像</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="o">[</span>可选参数] image
+<span class="c"># 运行实例</span>
+docker run <span class="nt">--name</span><span class="o">=</span>mycat <span class="nt">-d</span> <span class="nt">-p</span> 8080:8080 tomcat
+<span class="c"># 用完即删</span>
+docker run <span class="nt">-it</span> <span class="nt">--rm</span> tomcat
+<span class="c"># 指定环境变量（实例）</span>
+docker run <span class="nt">-d</span> <span class="nt">--name</span> elasticsearch <span class="nt">-p</span> 9200:9200 <span class="nt">-p</span> 9300:9300 <span class="nt">-e</span> <span class="s2">"discovery.type=single-node"</span> <span class="nt">-e</span> <span class="nv">ES_JAVA_OPTS</span><span class="o">=</span><span class="s2">"-Xms64m -Xmx512m"</span>  elasticsearch:7.6.2
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li>
+      <p><strong>–name=”Name”：</strong>容器名字 tomacat01、tomacat02，用于区分容器</p>
+    </li>
+    <li>
+<strong>-e：</strong>指定环境变量</li>
+    <li>
+<strong>-d：</strong>后台守护进程运行</li>
+    <li>
+<strong>-p：</strong>指定容器的端口，如  -p 8080:8080
+      <ul>
+        <li>-p ：主机端口：容器端口</li>
+        <li>-p ：容器端口</li>
+      </ul>
+    </li>
+    <li>
+<strong>-P：</strong>随机指定端口</li>
+    <li>
+<strong>-v:</strong>  指定数据卷
+      <ul>
+        <li>-v   容器文件位置:宿主机文件位置</li>
+      </ul>
+    </li>
+    <li>
+<strong>–volumes-from:</strong> 指定容器的数据卷共享（指定谁，就同步谁的数据！继承！）
+      <ul>
+        <li>–volumes-from:继承自那个容器（父容器删除不影响已存在数据）</li>
+      </ul>
+    </li>
+    <li>
+<strong>–net:</strong> 缺省 bridge</li>
+  </ul>
+</blockquote>
+
+<h4 id="进入容器">进入容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 运行一个centos并进入到容器里面</span>
+docker run <span class="nt">-it</span> centos /bin/bash
+<span class="c"># 退出容器</span>
+<span class="nb">exit</span>
+</code></pre></div></div>
+
+<h4 id="查看容器">查看容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看正在运行中的容器</span>
+docker ps
+<span class="c"># 查看所有容器</span>
+docker ps <span class="nt">-a</span>
+</code></pre></div></div>
+
+<h4 id="退出容器">退出容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">exit</span>   <span class="c"># 直接容器停止并退出</span>
+Ctrl + P + Q  <span class="c"># 容器退出不停止</span>
+</code></pre></div></div>
+
+<h4 id="删除容器">删除容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 删除指定容器</span>
+docker <span class="nb">rm </span>bde00bc086cf
+<span class="c"># 强制删除运行中的容器</span>
+docker <span class="nb">rm</span> <span class="nt">-f</span> bde00bc086cf
+<span class="c"># 迭代删除全部的容器</span>
+docker <span class="nb">rm</span> <span class="nt">-f</span> <span class="si">$(</span>docker ps <span class="nt">-aq</span><span class="si">)</span>
+</code></pre></div></div>
+
+<h4 id="容器的启动与停止">容器的启动与停止</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 启动容器</span>
+docker start 容器id
+<span class="c"># 重启容器</span>
+docker restart 容器id
+<span class="c"># 停止容器</span>
+docker stop 容器id
+<span class="c"># 强制杀死容器</span>
+docker <span class="nb">kill </span>容器id
+</code></pre></div></div>
+
+<h4 id="进入运行中容器">进入运行中容器</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 进入到指定容器内部进行修改  开启一个新的终端</span>
+docker <span class="nb">exec</span> <span class="nt">-it</span> 0cd4d9d94de2 /bin/bash
+<span class="c"># 进入到正在执行中的终端</span>
+docker attach 容器id
+</code></pre></div></div>
+
+<h4 id="从容器拷贝文件到宿主机">从容器拷贝文件到宿主机</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">cp </span>容器id:容器内文件的路径 宿主机路径
+<span class="c">#实例</span>
+docker <span class="nb">cp </span>0cd4d9d94de2:/Test.java /Test.java
+</code></pre></div></div>
+
+<h4 id="其他命令">其他命令</h4>
+
+<p><strong>查看日志</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看容器运行产生的日志</span>
+docker logs <span class="nt">-ft</span> <span class="nt">--tail</span> 10 容器id
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li>
+<strong>f:</strong>  格式化日志</li>
+    <li>
+<strong>t:</strong>  携带日志时间戳</li>
+  </ul>
+</blockquote>
+
+<p><strong>查看进程</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 查看cpu等信息</span>
+docker top 0cd4d9d94de2
+<span class="c"># 查看容器元信息</span>
+docker inspect 容器id
+</code></pre></div></div>
+
+<h2 id="进阶命令">进阶命令</h2>
+
+<h3 id="提交容器">提交容器</h3>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 提交一个容器为一个镜像（将容器打包）</span>
+docker commit <span class="o">[</span>可选参数] 服务id 自定义镜像名称[:版本标签]
+<span class="c"># 示例代码提交</span>
+docker commit  <span class="nt">-a</span><span class="o">=</span><span class="s2">"admin"</span> <span class="nt">-m</span><span class="o">=</span><span class="s2">"comment"</span> 19329ae6df90  diytomcat:1.0
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li>
+<strong>-a:</strong> 作者</li>
+    <li>**-m: **备注</li>
+    <li>
+<strong>-c:</strong> 将Dockerfile指令应用于创建的映像</li>
+    <li>
+<strong>-p:</strong> 提交期间暂停容器（默认为true）</li>
+  </ul>
+</blockquote>
+
+<h3 id="数据卷使用">数据卷使用</h3>
+
+<p><strong>基本使用</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 关联数据卷</span>
+docker run <span class="o">[</span>可选参数] <span class="nt">-v</span> /主机路径/:/容器路径/ 镜像名称
+<span class="c"># 关联数据卷的实例命令</span>
+docker run <span class="nt">-d</span> <span class="nt">-p</span> 8080:8080 <span class="nt">--name</span> mytomcat <span class="nt">-v</span> /home/tomcat/webapps/:/usr/local/tomcat/webapps tomcat
+</code></pre></div></div>
+
+<p><strong>MySQL安装实战</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">-p</span> 3366:3306 <span class="nt">-v</span> /home/mysql/conf:/etc/mysql/conf.d <span class="nt">-v</span> /home/mysql/data:/var/lib/mysql <span class="nt">-e</span> <span class="nv">MYSQL_ROOT_PASSWORD</span><span class="o">=</span>123456 <span class="nt">--name</span> mysql01 mysql:5.7
+</code></pre></div></div>
+
+<blockquote>
+  <ul>
+    <li>
+<strong>-d:</strong> 守护进程运行</li>
+    <li>
+<strong>-v:</strong> 添加数据卷（宿主机位置和容器位置映射）</li>
+    <li>
+<strong>-p:</strong> 堆对外映射端口</li>
+    <li>
+<strong>-e:</strong> 指定环境变量</li>
+    <li>
+<strong>–name:</strong> 容器名称</li>
+  </ul>
+</blockquote>
+
+<h3 id="dockerfile">Dockerfile</h3>
+
+<p><strong>构建镜像文件</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 创建一个Dockerfile</span>
+vim Dockerfile
+
+FROM centos
+
+VOLUME <span class="o">[</span><span class="s2">"volume01"</span>,<span class="s2">"volume02"</span><span class="o">]</span>
+
+CMD <span class="nb">echo</span> <span class="s2">"-----end---"</span>
+CMD /bin/bash
+
+:x
+
+<span class="c"># 构建docker镜像</span>
+<span class="c"># -f dockerfile的路径   </span>
+<span class="c"># -t 生成的镜像名称</span>
+<span class="c"># . 以当前路径为上下文打包</span>
+docker build <span class="nt">-f</span> /home/docker-volom/Dockerfile <span class="nt">-t</span> huangfu/centos:1.0 <span class="nb">.</span>
+
+<span class="c"># 构建基本命令</span>
+docker build <span class="o">[</span>OPTIONS] PATH | URL | -
+</code></pre></div></div>
+
+<p><strong>Dockerfile概念</strong></p>
+
+<ol>
+  <li>每个保留关键字（指令）都必须是大写字母</li>
+  <li>执行顺序从上到下</li>
+  <li>每一个指令都会创建提交一个新的镜像层并提交</li>
+</ol>
+
+<blockquote>
+  <ul>
+    <li>
+<strong>FROM:</strong> 基础镜像，一切都从这里开始构建</li>
+    <li>
+<strong>MAINTAINER:</strong> 镜像是谁写的，姓名+邮箱</li>
+    <li>
+<strong>RUN:</strong> 镜像构建需要运行的命令</li>
+    <li>
+<strong>ADD:</strong> 添加一个内容，比如需要添加一个tomcat，则需要传递一个压缩包，便于在容器内构建！</li>
+    <li>
+<strong>WORKDIR:</strong> 镜像的工作目录</li>
+    <li>
+<strong>VOLUME:</strong> 挂在的目录</li>
+    <li>
+<strong>EXPOSE:</strong> 暴露端口</li>
+    <li>
+<strong>CMD:</strong> 一个指令，指定这个容器启动的时候要运行的命令</li>
+    <li>
+<strong>ENTRYPOINT:</strong> 指定这个容器启动的时候要运行的命令！可以追加命令！</li>
+    <li>
+<strong>ONBUILD:</strong> 当构建一个被继承的Dockerfile 这个时候就会运行指令，触发命令</li>
+    <li>
+<strong>COPY:</strong> 类似与ADD，将文件拷贝到镜像中</li>
+    <li>
+<strong>ENV：</strong>构建的时候设置环境变量</li>
+  </ul>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># 构建一个具有复杂命令行的centos</span>
+vim Dockerfile
+
+<span class="c"># 镜像继承自centos</span>
+FROM centos
+<span class="c"># 作者信息</span>
+MAINTAINER huangfu&lt;huangfusuper@163.com&gt;
+<span class="c"># 设置环境变量</span>
+ENV MYPATH /usr/local
+<span class="c"># 设置工作目录</span>
+WORKDIR <span class="nv">$MYPATH</span>
+<span class="c"># 执行命令安装指令</span>
+RUN yum <span class="nt">-y</span> <span class="nb">install </span>vim
+RUN yum <span class="nt">-y</span> <span class="nb">install </span>net-tools
+<span class="c"># 暴露端口</span>
+EXPOSE 80
+<span class="c"># 执行一些指令</span>
+CMD <span class="nb">echo</span> <span class="s2">"-------end------"</span>
+CMD <span class="nb">echo</span> <span class="nv">$MYPATH</span>
+CMD /bin/bash
+
+:x
+
+<span class="c"># 构建镜像</span>
+docker build <span class="nt">-f</span> /home/docker-volom/Dockerfile <span class="nt">-t</span> huangfu/diycentos:1.0 <span class="nb">.</span>
+</code></pre></div></div>
+
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/2018/12/07/welcome-to-jekyll.html" title="Welcome to Jekyll!">Welcome to Jekyll!</a><a class="next" href="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html" title="IO多路复用">IO多路复用</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/2017/12/08/mermaid-example.html" title="IO多路复用">Mermaid example</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2016/01/01/another-test-markdown.html" title="IO多路复用">Another test markdown</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2018/05/26/mathjax-test.html" title="IO多路复用">Mathjax Test</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2016/05/19/super-short-article.html" title="IO多路复用">Some articles are just so short that we have to make the...</a></li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2017-2023 uponclouds</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

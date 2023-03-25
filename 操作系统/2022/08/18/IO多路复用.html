@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="google-translate-customization" content="108d9124921d80c3-80e20d618ff053c8-g4f02ec6f3dba68b7-c">
+<!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>IO多路复用 | Gentle He’s Blogs</title>
+<meta name="generator" content="Jekyll v4.3.2">
+<meta property="og:title" content="IO多路复用">
+<meta name="author" content="uponclouds">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="一般单次 I/O 请求会分为两个阶段，每个阶段对于 I/O 的处理方式是不同的。首先，I/O 会经历一个等待资源的阶段，比方说，等待网络传输数据可用，在这个过程中我们对 I/O 会有两种处理方式：">
+<meta property="og:description" content="一般单次 I/O 请求会分为两个阶段，每个阶段对于 I/O 的处理方式是不同的。首先，I/O 会经历一个等待资源的阶段，比方说，等待网络传输数据可用，在这个过程中我们对 I/O 会有两种处理方式：">
+<link rel="canonical" href="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html">
+<meta property="og:url" content="/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html">
+<meta property="og:site_name" content="Gentle He’s Blogs">
+<meta property="og:type" content="article">
+<meta property="article:published_time" content="2022-08-18T00:00:00+00:00">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="IO多路复用">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"uponclouds"},"dateModified":"2022-08-18T00:00:00+00:00","datePublished":"2022-08-18T00:00:00+00:00","description":"一般单次 I/O 请求会分为两个阶段，每个阶段对于 I/O 的处理方式是不同的。首先，I/O 会经历一个等待资源的阶段，比方说，等待网络传输数据可用，在这个过程中我们对 I/O 会有两种处理方式：","headline":"IO多路复用","mainEntityOfPage":{"@type":"WebPage","@id":"/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html"},"url":"/jekyll-theme-yat/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/2022/08/18/IO%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8.html"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="shortcut icon" href="">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-noto-sans@0.0.72/index.min.css">
+  <link rel="stylesheet" href="/jekyll-theme-yat/assets/css/main.css">
+  <script src="/jekyll-theme-yat/assets/js/main.js"></script><link type="application/atom+xml" rel="alternate" href="/jekyll-theme-yat/feed.xml" title="Gentle He's Blogs">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+<!-- and it's easy to individually load additional languages -->
+<script charset="UTF-8" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/languages/go.min.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+// Init highlight js
+document.addEventListener('DOMContentLoaded', function(event) {
+  var els = document.querySelectorAll('pre code')
+
+  function addLangData(block) {
+    var outer = block.parentElement.parentElement.parentElement;
+    var lang = block.getAttribute('data-lang');
+    for (var i = 0; i < outer.classList.length; i++) {
+      var cls = outer.classList[i];
+      if (cls.startsWith('language-')) {
+        lang = cls;
+        break;
+      }
+    }
+    if (!lang) {
+      cls = block.getAttribute('class');
+      lang = cls ? cls.replace('hljs ', '') : '';
+    }
+    if (lang.startsWith('language-')) {
+      lang = lang.substr(9);
+    }
+    block.setAttribute('class', 'hljs ' + lang);
+    block.parentNode.setAttribute('data-lang', lang);
+  }
+
+  function addBadge(block) {
+    var enabled = ('true' || 'true').toLowerCase();
+    if (enabled == 'true') {
+      var pre = block.parentElement;
+      pre.classList.add('badge');
+    }
+  }
+
+  function handle(block) {
+    addLangData(block);
+    addBadge(block)
+    hljs.highlightBlock(block);
+  }
+
+  for (var i = 0; i < els.length; i++) {
+    var el = els[i];
+    handle(el);
+  }
+});
+</script>
+
+<style>
+  /* code language badge */
+  pre.badge::before {
+    content: attr(data-lang);
+    color: #fff;
+    background-color: #ff4e00;
+    padding: 0 .5em;
+    border-radius: 0 2px;
+    text-transform: uppercase;
+    text-align: center;
+    min-width: 32px;
+    display: inline-block;
+    position: absolute;
+    right: 0;
+  }
+
+  /* fix wrong badge display for firefox browser */
+  code > table pre::before {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="site-header " role="banner">
+
+  <div class="wrapper">
+    <div class="site-header-inner">
+<span class="site-brand"><a class="site-brand-inner" rel="author" href="/jekyll-theme-yat/">
+  <img class="site-favicon" title="Gentle He's Blogs" src="" onerror="this.style.display='none'">
+  Gentle He's Blogs
+</a>
+</span><nav class="site-nav">
+          <input type="checkbox" id="nav-trigger" class="nav-trigger">
+          <label for="nav-trigger">
+            <span class="menu-icon">
+              <svg viewbox="0 0 18 15" width="18px" height="15px">
+                <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"></path>
+              </svg>
+            </span>
+          </label>
+
+          <div class="trigger">
+<a class="page-link" href="/jekyll-theme-yat/about.html">关于</a><a class="page-link" href="/jekyll-theme-yat/archives.html">归档</a><a class="page-link" href="/jekyll-theme-yat/categories.html">目录</a><a class="page-link" href="/jekyll-theme-yat/">主页</a><a class="page-link" href="/jekyll-theme-yat/tags.html">标签</a>
+
+
+
+
+
+
+
+
+
+<span class="page-link">
+
+
+
+<div id="google_translate_element" style="display: none;">
+</div>
+
+<span class="ct-language">
+  <ul class="list-unstyled ct-language-dropdown">
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="en">
+          
+          <img src="https://cdn.countryflags.com/thumbs/united-states-of-america/flag-400.png" title="English">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="fr">
+          
+          <img src="https://cdn.countryflags.com/thumbs/france/flag-400.png" title="French">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="zh-CN">
+          
+          <img src="https://cdn.countryflags.com/thumbs/china/flag-400.png" title="Chinese(Simple)">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ja">
+          
+          <img src="https://cdn.countryflags.com/thumbs/japan/flag-400.png" title="Japanese">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ko">
+          
+          <img src="https://cdn.countryflags.com/thumbs/south-korea/flag-400.png" title="Korean">
+          
+        </a>
+      </li>
+    
+      <li>
+        <a href="#" class="lang-select" data-lang="ru">
+          
+          <img src="https://cdn.countryflags.com/thumbs/russia/flag-400.png" title="Russian">
+          
+        </a>
+      </li>
+    
+  </ul>
+</span>
+
+<script type="text/javascript">
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({
+    pageLanguage: 'en',
+    autoDisplay: false,
+    layout: google.translate.TranslateElement.InlineLayout.VERTICAL
+  }, 'google_translate_element');
+
+  // Links to cross-origin destinations are unsafe
+  var gll = document.getElementsByClassName('goog-logo-link')[0];
+  if (gll) {
+    gll.setAttribute('rel', 'noopener');
+  }
+
+  function restoreLang() {
+    var iframe = document.getElementsByClassName('goog-te-banner-frame')[0];
+    if (!iframe) return;
+
+    var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+    var restore_el = innerDoc.getElementsByTagName("button");
+
+    for (var i = 0; i < restore_el.length; i++) {
+      if (restore_el[i].id.indexOf("restore") >= 0) {
+        restore_el[i].click();
+        var close_el = innerDoc.getElementsByClassName("goog-close-link");
+        close_el[0].click();
+        return;
+      }
+    }
+  }
+
+  function triggerHtmlEvent(element, eventName) {
+    var event;
+    if (document.createEvent) {
+      event = document.createEvent('HTMLEvents');
+      event.initEvent(eventName, true, true);
+      element.dispatchEvent(event);
+    } else {
+      event = document.createEventObject();
+      event.eventType = eventName;
+      element.fireEvent('on' + event.eventType, event);
+    }
+  }
+
+  var googleCombo = document.querySelector("select.goog-te-combo");
+  var langSelect = document.querySelector('.ct-language');
+  langSelect.addEventListener('click', function(event) {
+    if (!event.target) {
+      return;
+    }
+
+    var selected = document.querySelector('.ct-language .ct-language-selected');
+    if (selected) {
+      selected.classList.remove('ct-language-selected');
+    }
+
+    var target = event.target;
+    while (target && target !== langSelect ) {
+      if (target.matches('.lang-select')) {
+        break;
+      }
+      target = target.parentElement;
+    }
+
+    if (target && target.matches('.lang-select')) {
+      var lang = target.getAttribute('data-lang');
+      if (googleCombo.value == lang) {
+        restoreLang();
+      } else {
+        target.parentElement.classList.add('ct-language-selected');
+        googleCombo.value = lang;
+        triggerHtmlEvent(googleCombo, 'change');
+      }
+    }
+
+    event.preventDefault();
+  });
+}
+</script>
+
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</span>
+</div>
+        </nav>
+</div>
+  </div>
+</header>
+
+<script>
+  function initHeader() {
+    var lastScrollY = getScrollPos().y;
+    var documentElement = document.documentElement;
+
+    function storeScrollData() {
+      var y = getScrollPos().y;var scrollStatus = "";
+
+      if (y <= 0) {
+        scrollStatus = "top";
+      } else if ((window.innerHeight + y) >= document.body.offsetHeight) {
+        scrollStatus = "bottom";
+      } else {
+        var isScrollDown = (y - lastScrollY > 0) ? true : false;
+        scrollStatus = isScrollDown ? "down" : "up";
+      }
+
+      lastScrollY = y;
+      documentElement.setAttribute("data-scroll-status", scrollStatus);
+    }
+
+    window.addEventListener('scroll', function(e) {
+      storeScrollData();
+    });
+
+    storeScrollData();
+  }
+  document.addEventListener('DOMContentLoaded', initHeader);
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+  function hashLocate(hashValue) {
+    hashValue = hashValue.replace(/^.*#h-/, '');
+    hashValue = decodeURIComponent(hashValue);
+    var element = document.getElementById(hashValue);
+
+    if (!element) {
+      return;
+    }
+
+    var header = document.querySelector('header.site-header');
+    var headerRect = header.getBoundingClientRect();
+    var headerTop = Math.floor(headerRect.top);
+    var headerHeight = Math.floor(headerRect.height);
+    var scrollPos = getScrollPos();
+    var offsetY = element.offsetTop - (headerTop + headerHeight + 20);
+
+    if (offsetY == scrollPos.y) {
+      return;
+    }
+
+    if (headerTop == 0  && offsetY > scrollPos.y) {
+      offsetY += headerHeight + 2;
+    } else if (headerTop < 0  && offsetY < scrollPos.y) {
+      offsetY -= headerHeight - 2;
+    }
+
+    smoothScrollTo(offsetY);
+  }
+
+  // The first event occurred
+  window.addEventListener('load', function(event) {
+    if (window.location.hash) {
+      hashLocate(window.location.hash);
+    }
+  });
+
+  // The first event occurred
+  window.addEventListener('click', function(event) {
+    if (event.target.tagName.toLowerCase() == 'a') {
+      hashLocate(event.target.getAttribute('href'));
+    }
+  });
+</script>
+<div class="theme-toggle">
+  <input type="checkbox" id="theme-switch">
+  <label for="theme-switch">
+    <div class="toggle"></div>
+    <div class="names">
+      <p class="light">Light</p>
+      <p class="dark">Dark</p>
+    </div>
+  </label>
+</div>
+
+
+
+
+<script>
+  (function() {
+    var sw = document.getElementById('theme-switch');
+    var html = document.getElementsByTagName('html')[0];
+    var nightModeOption = ('auto' || 'auto').toLowerCase();
+    var storage = nightModeOption === 'manual'
+        ? localStorage
+        : sessionStorage;
+    var themeData = loadThemeData();
+
+    function saveThemeData(data) {
+      storage.setItem('theme', JSON.stringify(data));
+    }
+
+    function loadThemeData() {
+      var data = storage.getItem('theme');
+      try {
+        data = JSON.parse(data ? data : '');
+      } catch(e) {
+        data = { nightShift: undefined, autoToggleAt: 0 };
+        saveThemeData(data);
+      }
+      return data;
+    }
+
+    function handleThemeToggle(nightShift) {
+      themeData.nightShift = nightShift;
+      saveThemeData(themeData);
+      html.dataset.theme = nightShift ? 'dark' : 'light';
+      setTimeout(function() {
+        sw.checked = nightShift ? true : false;
+      }, 50);
+    }
+
+    function autoThemeToggle() {
+      // Next time point of theme toggle
+      var now = new Date();
+      var toggleAt = new Date();
+      var hours = now.getHours();
+      var nightShift = hours >= 19 || hours <=7;
+
+      if (nightShift) {
+        if (hours > 7) {
+          toggleAt.setDate(toggleAt.getDate() + 1);
+        }
+        toggleAt.setHours(7);
+      } else {
+        toggleAt.setHours(19);
+      }
+
+      toggleAt.setMinutes(0);
+      toggleAt.setSeconds(0);
+      toggleAt.setMilliseconds(0)
+
+      var delay = toggleAt.getTime() - now.getTime();
+
+      // auto toggle theme mode
+      setTimeout(function() {
+        handleThemeToggle(!nightShift);
+      }, delay);
+
+      return {
+        nightShift: nightShift,
+        toggleAt: toggleAt.getTime()
+      };
+    }
+
+    // Listen the theme toggle event
+    sw.addEventListener('change', function(event) {
+      handleThemeToggle(event.target.checked);
+    });
+
+    if (nightModeOption == 'auto') {
+      var data = autoThemeToggle();
+
+      // Toggle theme by local setting
+      if (data.toggleAt > themeData.autoToggleAt) {
+        themeData.autoToggleAt = data.toggleAt;
+        handleThemeToggle(data.nightShift);
+      } else {
+        handleThemeToggle(themeData.nightShift);
+      }
+    } else if (nightModeOption == 'manual') {
+      handleThemeToggle(themeData.nightShift);
+    } else {
+      var nightShift = themeData.nightShift;
+      if (nightShift === undefined) {
+        nightShift = nightModeOption === 'on';
+      }
+      handleThemeToggle(nightShift);
+    }
+  })();
+</script>
+<div id="click-to-top" class="click-to-top">
+  <i class="fa fa-arrow-up"></i>
+</div>
+<script>
+  (function () {
+    const clickToTop = document.getElementById('click-to-top');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 100) {
+        clickToTop.classList.add('show')
+      }else {
+        clickToTop.classList.remove('show')
+      }
+    });
+    clickToTop.addEventListener('click', () => {
+      window.smoothScrollTo(0);
+    });
+  })();
+</script>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="framework">
+  <section class="main">
+
+     <div class="post">
+  <section>
+
+
+
+
+
+
+
+
+
+<header class="post-header">
+  <h1 class="post-title p-name" itemprop="name headline">IO多路复用</h1>
+  <h2 class="post-subtitle"></h2>
+
+  <p class="post-meta">
+    <time class="dt-published" datetime="2022-08-18T00:00:00+00:00" itemprop="datePublished"><i class="fa fa-calendar"></i> Aug 18, 2022
+    </time>
+
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <span class="post-reading-time left-vsplit"><i class="fa fa-clock-o"></i> About 2 mins</span>
+  </p></header>
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+    <div class="post-content e-content" itemprop="articleBody">
+
+      <p>一般单次 I/O 请求会分为两个阶段，每个阶段对于 I/O 的处理方式是不同的。<strong>首先，I/O 会经历一个等待资源的阶段</strong>，比方说，等待网络传输数据可用，在这个过程中我们对 I/O 会有两种处理方式：</p>
+
+<ul>
+  <li>阻塞。指的是在数据不可用时，I/O 请求一直阻塞，直到数据返回；</li>
+  <li>非阻塞。指的是数据不可用时，I/O 请求立即返回，直到被通知资源可用为止。</li>
+</ul>
+
+<p><strong>然后是使用资源的阶段</strong>，比如说从网络上接收到数据，并且拷贝到应用程序的缓冲区里面。在这个阶段我们也会有两种处理方式：</p>
+
+<ul>
+  <li>同步处理。指的是 I/O 请求在读取或者写入数据时会阻塞，直到读取或者写入数据完成；</li>
+  <li>异步处理。指的是 I/O 请求在读取或者写入数据时立即返回，当操作系统处理完成 I/O 请求，并且将数据拷贝到用户提供的缓冲区后，再通知应用 I/O 请求执行完成。</li>
+</ul>
+
+<p>将这两个阶段的四种处理方式，做一些排列组合，再做一些补充，就得到了我们常见的五种 I/O 模型：</p>
+
+<ul>
+  <li>
+    <p><strong>同步阻塞IO</strong>：假设应用程序的进程发起<strong>IO调用</strong>，但是如果<strong>内核的数据还没准备好</strong>的话，那应用程序进程就一直在阻塞等待，一直等到内核数据准备好了，从内核拷贝到用户空间，才返回成功提示，此次IO操作，称之为<strong>阻塞IO</strong>。</p>
+  </li>
+  <li>
+    <p><strong>同步非阻塞IO</strong>：如果内核数据还没准备好，可以先返回错误信息给用户进程，让它不需要等待，而是通过轮询的方式再来请求。</p>
+  </li>
+  <li>
+    <p><strong>同步IO多路复用</strong>：本文接下来重点介绍的模型。</p>
+  </li>
+  <li>
+    <p><strong>信号驱动模型</strong>：信号驱动IO不再用主动询问的方式去确认数据是否就绪，而是向内核发送一个信号，然后应用用户进程可以去做别的事，不用阻塞。当内核数据准备好后，再通过信号通知应用进程，此时数据复制到用户空间的时候，应用进程还是阻塞的。</p>
+  </li>
+  <li>
+    <p><strong>异步IO(AIO)</strong>：以上四种IO模型在数据复制到用户缓存空间的时候，都是<strong>阻塞</strong>的。而<strong>AIO</strong>实现了全流程的非阻塞，当数据从内核复制到用户空间完成后，系统会发送型号给用户进行通知。</p>
+  </li>
+</ul>
+
+<h2 id="io多路复用">IO多路复用</h2>
+
+<p>⼀个进程虽然任⼀时刻只能处理⼀个请求，但是处理每个请求的事件时，耗时控制在 1 毫秒以内，这样 1 秒内就可以处理上千个请求，把时间拉⻓来看，多个请求复⽤了⼀个进程，这就是多路复⽤，这种思想很类似⼀个 <strong>CPU</strong> 并发多个进程，所以也叫做<strong>时分多路复⽤</strong>。</p>
+
+<p><code class="language-plaintext highlighter-rouge">select</code>，<code class="language-plaintext highlighter-rouge">poll</code>，<code class="language-plaintext highlighter-rouge">epoll</code>是 Linux 内核提供给用户调用的三个多路复用接口，我们将重点介绍它们。</p>
+
+<h3 id="selectpoll">select/poll</h3>
+
+<p>应用进程通过调用 <code class="language-plaintext highlighter-rouge">select</code> 函数，可以同时监控多个<code class="language-plaintext highlighter-rouge">文件描述符</code>，在 <code class="language-plaintext highlighter-rouge">select</code> 函数监控的<code class="language-plaintext highlighter-rouge">文件描述符</code>中，只要有任何一个数据状态准备就绪了，<code class="language-plaintext highlighter-rouge">select</code> 函数就会返回可读状态，这时应用进程再发起 <code class="language-plaintext highlighter-rouge">recvfrom</code> 系统调用请求去读取数据。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220722214825.png" alt=""></p>
+
+<div class="note yellow">select 使⽤固定⻓度的 BitsMap，表示⽂件描述符集合，⽽且所⽀持的⽂件描述符的个数是有限制的，在 Linux 系统中，由内核中的 FD_SETSIZE 限制， 默认最⼤值为 1024 ，只能监听 0~1023 的⽂件描述符。</div>
+
+<p><code class="language-plaintext highlighter-rouge">select</code> 函数返回后是通过遍历 <code class="language-plaintext highlighter-rouge">⽂件描述符</code>集合来找到就绪的描述符。（仅知道有I/O事件发生，却不知是哪几个流，所以遍历所有流）</p>
+
+<p>比如在 Socket 网络编程中，<code class="language-plaintext highlighter-rouge">select</code> 将已连接的 <code class="language-plaintext highlighter-rouge">Socket</code> 都放到⼀个<code class="language-plaintext highlighter-rouge">⽂件描述符</code>集合，然后调⽤ <code class="language-plaintext highlighter-rouge">select</code> 函数将⽂件描述符集合拷⻉到内核⾥，让内核来检查是否有⽹络事件产⽣，检查的⽅式很粗暴，就是通过遍历⽂件描述符集合的⽅式，当检查到有事件产⽣后，将此 <code class="language-plaintext highlighter-rouge">Socket</code> 标记为可读或可写，接着再把整个⽂件描述符集合拷⻉回⽤户态⾥，然后⽤户态还需要再通过遍历的⽅法找到可读或可写的 <code class="language-plaintext highlighter-rouge">Socket</code>，然后再对其处理。所以，对于 <code class="language-plaintext highlighter-rouge">select</code> 这种⽅式，需要进⾏ <strong>2</strong> 次「遍历」⽂件描述符集合，⼀次是在内核态⾥，⼀个次是在⽤户态⾥ ，⽽且还会发⽣ <strong>2</strong> 次「拷⻉」⽂件描述符集合，先从⽤户空间传⼊内核空间，由内核修改后，再传出到⽤户空间中。</p>
+
+<p><code class="language-plaintext highlighter-rouge">poll</code> 不再⽤ BitsMap 来存储所关注的<code class="language-plaintext highlighter-rouge">⽂件描述符</code>，取⽽代之⽤动态数组，以链表形式来组织，突破了 <code class="language-plaintext highlighter-rouge">select</code> 的⽂件描述符个数限制，当然还会受到系统⽂件描述符限制。</p>
+
+<p>但是 <code class="language-plaintext highlighter-rouge">poll</code> 和 <code class="language-plaintext highlighter-rouge">select</code> 并没有太⼤的本质区别，都是使⽤「线性结构」存储进程关注的 <code class="language-plaintext highlighter-rouge">⽂件描述符</code> 集合，因此都需要遍历⽂件描述符集合来找到可读或可写的 <code class="language-plaintext highlighter-rouge">⽂件描述符</code>，时间复杂度为 <strong>O(n)</strong>，⽽且也需要在⽤户态与内核态之间拷⻉⽂件描述符集合，这种⽅式随着并发数上来，性能的损耗会呈指数级增⻓。</p>
+
+<h3 id="epoll">epoll</h3>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code>使用事件驱动来实现，流程如下：</p>
+
+<p><img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220722215234.png" alt=""></p>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code> 通过两个⽅⾯，很好解决了 <code class="language-plaintext highlighter-rouge">select/poll</code> 的问题：</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">epoll</code> 在内核⾥使⽤红⿊树来跟踪进程所有待检测的⽂件描述符，把需要监控的 <code class="language-plaintext highlighter-rouge">socket</code> 通过 <code class="language-plaintext highlighter-rouge">epoll_ctl()</code> 函数加⼊内核中的红⿊树⾥，红⿊树是个⾼效的数据结构，增删查⼀般时间复杂度是 <strong>O(logn)</strong>，通过对这棵⿊红树进⾏操作，这样就不需要像 <code class="language-plaintext highlighter-rouge">select/poll</code> 每次操作时都传⼊整个 socket 集合，只需要传⼊⼀个待检测的 <code class="language-plaintext highlighter-rouge">socket</code>，减少了内核和⽤户空间⼤量的数据拷⻉和内存分配。</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">epoll</code> 使⽤事件驱动的机制，内核⾥维护了⼀个链表来记录就绪事件，当某个 <code class="language-plaintext highlighter-rouge">socket</code> 有事件发⽣时，通过回调函数内核会将其加⼊到这个就绪事件列表中，当⽤户调⽤ <code class="language-plaintext highlighter-rouge">epoll_wait()</code> 函数时，只会返回有事件发⽣的⽂件描述符的个数，不需要像 <code class="language-plaintext highlighter-rouge">select/poll</code> 那样轮询扫描整个 <code class="language-plaintext highlighter-rouge">socket</code> 集合，⼤⼤提⾼了检测的效率。<img src="https://blogimg-1253107768.cos.ap-guangzhou.myqcloud.com/blogImage/20220722215630.png" alt="">
+</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code> 的⽅式即使监听的 <code class="language-plaintext highlighter-rouge">socket</code> 数量越多的时候，效率不会⼤幅度降低，能够同时监听的 <code class="language-plaintext highlighter-rouge">socket</code> 的数⽬也⾮常的多了，上限就为系统定义的进程打开的最⼤⽂件描述符个数。</p>
+
+<p><code class="language-plaintext highlighter-rouge">epoll</code> ⽀持两种事件触发模式，分别是<strong>边缘触发（edge-triggered，ET）</strong>和<strong>⽔平触发（level-triggered， LT）</strong>。</p>
+
+<ul>
+  <li>
+<strong>边缘触发</strong>：当被监控的 <code class="language-plaintext highlighter-rouge">Socket</code> 描述符上有可读事件发⽣时，服务器端只会从 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 中苏醒⼀次，即使进程没有调⽤ <code class="language-plaintext highlighter-rouge">read</code> 函数从内核读取数据，也依然只苏醒⼀次，因此我们程序要保证⼀次性将内核缓冲区的数据读取完；</li>
+  <li>
+<strong>水平触发</strong>：当被监控的 <code class="language-plaintext highlighter-rouge">Socket</code> 上有可读事件发⽣时，服务器端不断地从 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 中苏醒，直到内核缓冲区数据被 <code class="language-plaintext highlighter-rouge">read</code> 函数读完才结束，⽬的是告诉我们有数据需要读取；</li>
+</ul>
+
+<div class="note yellow">⽔平触发的意思是只要满⾜事件的条件，⽐如内核中有数据需要读，就⼀直不断地把这个事件传递给⽤户；⽽边缘触发的意思是只有第⼀次满⾜条件的时候才触发，之后就不会再传递同样的事件了。</div>
+
+<p>如果使⽤⽔平触发模式，当内核通知⽂件描述符可读写时，接下来还可以继续去检测它的状态，看它是否依然可读或可写。所以在收到通知后，没必要⼀次执⾏尽可能多的读写操作。</p>
+
+<p>如果使⽤边缘触发模式，I/O 事件发⽣时只会通知⼀次，⽽且我们不知道到底能读写多少数据，所以在收到通知后应尽可能地读写数据，以免错失读写的机会。因此，我们会循环从⽂件描述符读写数据，那么如果⽂件描述符是阻塞的，没有数据可读写时，进程会阻塞在读写函数那⾥，程序就没办法继续往下执⾏。所以，<strong>边缘触发模式⼀般和⾮阻塞 I/O 搭配使⽤</strong>，程序会⼀直执⾏ I/O 操作，直到系统调⽤（如 <code class="language-plaintext highlighter-rouge">read</code> 和 <code class="language-plaintext highlighter-rouge">write</code> ）返回错误，错误类型为 <code class="language-plaintext highlighter-rouge">EAGAIN</code> 或 <code class="language-plaintext highlighter-rouge">EWOULDBLOCK</code> 。</p>
+
+<p>⼀般来说，边缘触发的效率⽐⽔平触发的效率要⾼，因为边缘触发可以减少 <code class="language-plaintext highlighter-rouge">epoll_wait</code> 的系统调⽤次数，系统调⽤也是有⼀定的开销的的，毕竟也存在上下⽂的切换。</p>
+
+<div class="note red sd-err"> select/poll 只有⽔平触发模式，epoll 默认的触发模式是⽔平触发，但是可以根据应⽤场景设置为边缘触发模式。Nginx 使用边缘触发，Redis 使用水平触发。</div>
+
+<h3 id="总结">总结</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>select</th>
+      <th>poll</th>
+      <th>epoll</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>底层数据结构</td>
+      <td>数组</td>
+      <td>链表</td>
+      <td>红黑树和双链表</td>
+    </tr>
+    <tr>
+      <td>获取就绪的fd</td>
+      <td>遍历</td>
+      <td>遍历</td>
+      <td>事件回调</td>
+    </tr>
+    <tr>
+      <td>事件复杂度</td>
+      <td>O(n)</td>
+      <td>O(n)</td>
+      <td>O(logn)</td>
+    </tr>
+    <tr>
+      <td>最大连接数</td>
+      <td>1024</td>
+      <td>无限制</td>
+      <td>无限制</td>
+    </tr>
+    <tr>
+      <td>fd数据拷贝</td>
+      <td>每次调用select，需要将fd数据从用户空间拷贝到内核空间</td>
+      <td>每次调用poll，需要将fd数据从用户空间拷贝到内核空间</td>
+      <td>使用内存映射(mmap)，不需要从用户空间频繁拷贝fd数据到内核空间</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="参考">参考</h3>
+
+<p>[1] 看一遍就理解：IO模型详解 –&gt; <a href="https://juejin.cn/post/7036518015462015006#heading-7">https://juejin.cn/post/7036518015462015006#heading-7</a></p>
+
+<p>[2] 图解系统-小林 –&gt; <a href="https://xiaolincoding.com/os/8_network_system/selete_poll_epoll.html#_9-2-i-o-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8-select-poll-epoll">https://xiaolincoding.com/os/8_network_system/selete_poll_epoll.html#_9-2-i-o-%E5%A4%9A%E8%B7%AF%E5%A4%8D%E7%94%A8-select-poll-epoll</a></p>
+
+
+    </div>
+
+</article>
+<div class="post-nav">
+<a class="previous" href="/jekyll-theme-yat/%E5%B7%A5%E5%85%B7/2022/08/18/Docker%E5%91%BD%E4%BB%A4%E5%A4%A7%E5%85%A8.html" title="Docker命令大全">Docker命令大全</a><a class="next" href="/jekyll-theme-yat/java/2022/08/18/Java-%E4%B8%AD%E7%9A%84%E5%81%8F%E5%90%91%E9%94%81%E5%92%8C%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81.html" title="Java 中的偏向锁和轻量级锁">Java 中的偏向锁和轻量级锁</a>
+</div>
+<div class="post-related">
+      <div>Related Articles</div>
+      <ul>
+        <li><a class="post-link" href="/jekyll-theme-yat/2017/12/15/table-example.html" title="Java 中的偏向锁和轻量级锁">Table example</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2018/12/05/an-exhibit-of-markdown.html" title="Java 中的偏向锁和轻量级锁">An exhibit of Markdown</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2018/12/07/welcome-to-jekyll.html" title="Java 中的偏向锁和轻量级锁">Welcome to Jekyll!</a></li>
+<li><a class="post-link" href="/jekyll-theme-yat/2017/12/18/video-example.html" title="Java 中的偏向锁和轻量级锁">Video example</a></li>
+</ul>
+    </div>
+<div class="post-comments"></div></section>
+</div>
+
+
+  </section>
+  <section class="sidebar" style="margin-left: 15px;">
+    <!-- Get sidebar items --><style type="text/css" media="screen">
+.post-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+</style>
+
+<div class="post-menu">
+  <div class="post-menu-title">TOC</div>
+  <div class="post-menu-content"></div>
+</div>
+
+<script>
+  function generateContent() {
+    var menu = document.querySelector(".post-menu");
+    var menuContent =  menu.querySelector(".post-menu-content");
+    var headings = document.querySelector(".post-content").querySelectorAll("h2, h3, h4, h5, h6");
+
+    // Hide menu when no headings
+    if (headings.length === 0) {
+      return menu.style.display = "none";
+    }
+
+    // Generate post menu
+    var menuHTML = '';
+    for (var i = 0; i < headings.length; i++) {
+      var h = headings[i];
+      menuHTML += (
+        '<li class="h-' + h.tagName.toLowerCase() + '">'
+        + '<a href="#h-' + h.getAttribute('id') + '">' + h.textContent + '</a></li>');
+    }
+
+    menuContent.innerHTML = '<ul>' + menuHTML + '</ul>';
+
+    // The header element
+    var header = document.querySelector('header.site-header');
+
+    function doMenuCollapse(index, over_items) {
+      var items = menuContent.firstChild.children;
+
+      if (over_items == undefined) {
+        over_items = 20;
+      }
+
+      if (items.length < over_items) {
+        return;
+      }
+
+      var activeItem = items[index];
+      var beginItem = activeItem
+      var endItem = activeItem
+      var beginIndex = index;
+      var endIndex = index + 1;
+      while (beginIndex >= 0
+        && !items[beginIndex].classList.contains('h-h2')) {
+        beginIndex -= 1;
+      }
+      while (endIndex < items.length
+        && !items[endIndex].classList.contains('h-h2')) {
+        endIndex += 1;
+      }
+      for (var i = 0; i < beginIndex; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+      for (var i = beginIndex + 1; i < endIndex; i++) {
+        item = items[i]
+        // if (!item.classList.contains('h-h2')) {
+          item.style.display = '';
+        // }
+      }
+      for (var i = endIndex; i < items.length; i++) {
+        item = items[i]
+        if (!item.classList.contains('h-h2')) {
+          item.style.display = 'none';
+        }
+      }
+    }
+
+    // Init menu collapsed
+    doMenuCollapse(-1);
+
+    // Active the menu item
+    window.addEventListener('scroll', function (event) {
+      var lastActive = menuContent.querySelector('.active');
+      var changed = true;
+      var activeIndex = -1;
+      for (var i = headings.length - 1; i >= 0; i--) {
+        var h = headings[i];
+        var headingRect = h.getBoundingClientRect();
+        var headerRect = header.getBoundingClientRect();
+        var headerTop = Math.floor(headerRect.top);
+        var headerHeight = Math.floor(headerRect.height);
+        var headerHeight = headerTop + headerHeight + 20;
+        if (headingRect.top <= headerHeight) {
+          var id = 'h-' + h.getAttribute('id');
+          var a = menuContent.querySelector('a[href="#' + id  + '"]');
+          var curActive = a.parentNode;
+          if (curActive) {
+            curActive.classList.add('active');
+            activeIndex = i;
+          }
+          if (lastActive == curActive) {
+            changed = false;
+          }
+          break;
+        }
+      }
+      if (changed) {
+        if (lastActive) {
+          lastActive.classList.remove('active');
+        }
+        doMenuCollapse(activeIndex);
+      }
+      event.preventDefault();
+    });
+  }
+  generateContent();
+</script>
+</section>
+</div>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/jekyll-theme-yat/"></data>
+
+  <div class="wrapper">
+    <div class="site-footer-inner">
+<div>Unpublished Work <span class="copyleft">©</span> 2017-2023 uponclouds</div>
+      <div>Powered by <a title="Jekyll is a simple, blog-aware, static site
+      generator." href="https://jekyllrb.com/">Jekyll</a> &amp; <a title="Yat, yet
+      another theme." href="https://github.com/jeffreytse/jekyll-theme-yat">Yat Theme</a>.</div>
+      <div class="footer-col rss-subscribe">Subscribe <a href="/jekyll-theme-yat/feed.xml">via RSS</a>
+</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
